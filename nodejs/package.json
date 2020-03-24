@@ -1,0 +1,26 @@
+{
+  "name": "@classiii-api-samples/nodejs",
+  "version": "1.0.0",
+  "description": "ClassIII API Node.js samples.",
+  "main": "auth-signature.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "auth-signature": "node auth-signature.js",
+    "lint": "eslint --ext .js --ext .jsx client"
+  },
+  "dependencies": {
+    "form-data": "^2.5.0",
+    "superagent": "^5.1.0",
+    "ws": "^7.1.2"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.0.3",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.0.1",
+    "eslint-plugin-import": "^2.20.0",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.18.0",
+    "eslint-plugin-react-hooks": "^2.3.0"
+  }
+}
