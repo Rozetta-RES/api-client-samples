@@ -1,0 +1,27 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>netcoreapp2.1</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="ClassiiiUser.cs" />
+    <Compile Remove="ITranslationOption.cs" />
+    <Compile Remove="RC4.cs" />
+    <Compile Remove="ResponseStatus.cs" />
+    <Compile Remove="T4ooUser.cs" />
+    <Compile Remove="TextTranslationResult.cs" />
+    <Compile Remove="UserInfo.cs" />
+    <Compile Remove="Utils.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\common-source\csharp\common\common.csproj" />
+  </ItemGroup>
+
+</Project>
