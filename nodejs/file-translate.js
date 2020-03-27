@@ -12,8 +12,8 @@ const serverConfig = {
 };
 
 const authConfig = {
-  accessKey = 'YOUR_ACCESSKEY',
-  secretKey = 'YOUR_SECRETKEY',
+  accessKey: 'YOUR_ACCESSKEY',
+  secretKey: 'YOUR_SECRETKEY',
 };
 
 const url = '/api/v1/file-translate';

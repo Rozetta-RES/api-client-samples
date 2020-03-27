@@ -10,9 +10,9 @@ const serverConfig = {
 };
 
 const authConfig = {
-  accessKey = 'YOUR_ACCESSKEY',
-  secretKey = 'YOUR_SECRETKEY',
-  transId = 'transID',
+  accessKey: 'YOUR_ACCESSKEY',
+  secretKey: 'YOUR_SECRETKEY',
+  transId: 'transID',
 };
 
 const url = `/api/v1/translate-result/${authConfig.transId}`;
