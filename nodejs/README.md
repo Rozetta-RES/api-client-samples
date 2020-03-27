@@ -1,3 +1,35 @@
+# CLASSIII API コードサンプル (Node.js)
+
+このディレクトリには、Node.jsでCLASSIII APIを利用する簡単なサンプルコードを置いています。
+
+
+## Requirements
+
+* Node.js 10
+
+## Run
+
+コードを実行する前に、下記コマンドで依存関係をインストールしてください。
+
+```
+npm install
+```
+
+## Examples
+
+現在、下記のサンプルコードをご利用いただくことができます。
+
+```
+# Authentication signature.
+npm run auth-signature
+
+# File Translate.
+npm run file-translate
+
+# Get File translate result.
+npm run file-translate-result
+```
+
 # CLASSIII API code examples (Node.js)
 
 This directory contains simple Node.js programs to demonstrate the CLASSIII API
