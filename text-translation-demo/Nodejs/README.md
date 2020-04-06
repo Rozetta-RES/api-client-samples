@@ -20,9 +20,6 @@ npm install
 現在、下記のサンプルコードをご利用いただくことができます。
 
 ```
-# Authentication signature.
-npm run auth-signature
-
 # File Translate.
 npm run file-translate
 
@@ -52,9 +49,6 @@ npm install
 Currently the following examples are implemented:
 
 ```
-# Authentication signature.
-npm run auth-signature
-
 # File Translate.
 npm run file-translate
 
