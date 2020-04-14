@@ -1,23 +1,12 @@
-
 const superagent = require('superagent');
+const config = require('./config');
 
 const authUtils = require('./utils/auth-utils');
 
-const serverConfig = {
-  protocol: 'https:',
-  hostname: 'translate.classiii.io',
-  port: 443,
-};
+const translateId = 'your translateId';
+const url = `/api/v1/translate-result/${translateId}`;
 
-const authConfig = {
-  accessKey: 'YOUR_ACCESSKEY',
-  secretKey: 'YOUR_SECRETKEY',
-  transId: 'transID',
-};
-
-const url = `/api/v1/translate-result/${authConfig.transId}`;
-
-const sendRequest = (accessKey, secretKey) => {
+const sendRequest = (serverConfig, accessKey, secretKey) => {
   const nonce = new Date().getTime().toString();
   const signature = authUtils.generateSignature(
     url,
@@ -25,7 +14,7 @@ const sendRequest = (accessKey, secretKey) => {
     nonce,
   );
 
-  superagent.get(`${serverConfig.protocol}//${serverConfig.hostname}${url}`)
+  superagent.get(`${serverConfig.protocol}//${serverConfig.hostname}:${serverConfig.port}${url}`)
     .set({
       accessKey,
       signature,
@@ -38,9 +27,9 @@ const sendRequest = (accessKey, secretKey) => {
 const main = async () => {
   try {
     await sendRequest(
-      serverConfig,
-      authConfig.accessKey,
-      authConfig.secretKey,
+      config.serverConfig,
+      config.authConfig.accessKey,
+      config.authConfig.secretKey,
     );
   } catch (error) {
     console.error(error);

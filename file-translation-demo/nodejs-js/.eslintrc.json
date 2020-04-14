@@ -1,0 +1,18 @@
+{
+    "extends": ["airbnb"],
+    "globals": {
+        "document": true,
+        "navigator": true
+    },
+    "parser": "babel-eslint",
+    "rules": {
+        "no-console": "off",
+        "react/destructuring-assignment": "off",
+        "max-len": "off",
+        "lines-between-class-members": "off",
+        "linebreak-style": "off"
+    },
+    "env": {
+        "jest": true
+    }
+}
