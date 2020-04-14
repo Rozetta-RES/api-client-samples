@@ -20,11 +20,15 @@ npm install
 現在、下記のサンプルコードをご利用いただくことができます。
 
 ```
-# File Translate.
+# translate file.
 npm run file-translate
 
-# Get File translate result.
+# get translated result.
 npm run file-translate-result
+
+# download translated file.
+npm run file-translate-download
+
 ```
 
 # CLASSIII API code examples (Node.js)
@@ -49,9 +53,13 @@ npm install
 Currently the following examples are implemented:
 
 ```
-# File Translate.
+# translate file.
 npm run file-translate
 
-# Get File translate result.
+# get translated result.
 npm run file-translate-result
+
+# download translated file.
+npm run file-translate-download
 ```
+
