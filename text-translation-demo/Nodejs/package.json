@@ -9,6 +9,8 @@
     "auth-signature": "node auth-signature.js",
     "file-translate-result": "node file-translate-result.js",
     "file-translate": "node file-translate.js",
+    "ttt-async": "node ttt-async.js",
+    "ttt-sync": "node ttt-sync.js",
     "lint": "eslint --ext .js --ext .jsx client"
   },
   "dependencies": {
