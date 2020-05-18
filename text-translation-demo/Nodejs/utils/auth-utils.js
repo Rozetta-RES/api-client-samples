@@ -12,8 +12,8 @@ const serverConfig = {
   port: 443
 };
 const authConfig = {
-  // accessKey: 'ACCESS_KEY',
-  // secretKey: 'SECRET_KEY'
+  accessKey: 'ACCESS_KEY',
+  secretKey: 'SECRET_KEY'
 };
 
 /**
