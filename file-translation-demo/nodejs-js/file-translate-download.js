@@ -1,41 +1,85 @@
+/**
+* Demo program of download translated file.
+* Command line: node ./file-translation-download.js translateItemId1,translateItemId2,translateItemId3....
+* Required npm libs: superagent, crypto, adm-zip
+*/
 const superagent = require('superagent');
-const fsp = require('fs').promises;
+const crypto = require('crypto');
 const fs = require('fs');
-const path = require('path');
-const unzipper = require('unzipper');
-const config = require('./config');
-const authUtils = require('./utils/auth-utils');
+const AdmZip = require('adm-zip');
 
-const translateItemIds = ['your translateItemId'];
-const url = `/api/v1/downloads?ids=${JSON.stringify(translateItemIds)}`;
+const { serverConfig } = require('./config');
+const { authConfig } = require('./config');
 
-const sendRequest = (serverConfig, accessKey, secretKey) => {
+const signatureHMACAlgo = 'sha256';
+const signatureHMACEncoding = 'hex';
+/**
+ * Generates a request signature.
+ *
+ * @param {string} path Path.
+ * @param {string} secretKey Secret key.
+ * @param {string} nonce Nonce.
+ *
+ * @returns {string} The request signature.
+ */
+const generateSignature = (path, secretKey, nonce) => {
+  const hmac = crypto.createHmac(signatureHMACAlgo, secretKey);
+  hmac.update(nonce);
+  hmac.update(path);
+  return hmac.digest(signatureHMACEncoding);
+};
+
+/**
+* @param {object} serverConfig Server configurations.
+* @param {string} serverConfig.protocol Server protocol.
+* @param {string} serverConfig.hostname Server hostname.
+* @param {number} serverConfig.port Server listening port.
+* @param {object} authConfig Authentication configurations.
+* @param {string} authConfig.accessKey Access key.
+* @param {string} authConfig.secretKey Secret key.
+* @param {string} authConfig.nonce Nonce.
+* @param {string} translateItemIds Translate item ids to be downloaded, splitted by ','
+*
+* @returns {Promise<string>} Server response.
+*
+* @throws {Error} When unable to complete the request.
+*/
+const sendRequest = (serverConfig, authConfig, translateItemIds) => {
+  const itemIds = translateItemIds.split(',')
+  const url = `/api/v1/downloads?ids=${JSON.stringify(itemIds)}`;
   const nonce = new Date().getTime().toString();
-  const signature = authUtils.generateSignature(
-    url,
-    secretKey,
-    nonce,
-  );
+  const signature = generateSignature(url, authConfig.secretKey, nonce);
 
-  superagent.get(`${serverConfig.protocol}//${serverConfig.hostname}:${serverConfig.port}${url}`)
+  superagent.get(`${serverConfig.protocol}//${serverConfig.hostname}${url}`)
     .set({
-      accessKey,
+      accessKey: authConfig.accessKey,
       signature,
-      nonce,
-    }).end(async (req, resp) => {
-      const zipFile = path.join(__dirname, 'sample-files', 'result.zip');
-      await fsp.writeFile(zipFile, resp.body);
-      fs.createReadStream(zipFile)
-        .pipe(unzipper.Extract({ path: path.join(__dirname, 'sample-files') }));
+      nonce: authConfig.nonce,
+    }).end(function (req, resp) {
+      if (resp.status === 200) {
+        fs.createWriteStream('./output.zip').write(resp.body, (error) => {
+          if (error) {
+            console.error(error);
+          } else {
+            const zip = new AdmZip('./output.zip');
+            zip.extractAllTo('./', true);
+          }
+        });
+      }
     });
 };
 
 const main = async () => {
+  const translateItemIds = process.argv[2];
+  if (!translateItemIds) {
+    console.log("Error. please input translationItemId.");
+    return;
+  };
   try {
     await sendRequest(
-      config.serverConfig,
-      config.authConfig.accessKey,
-      config.authConfig.secretKey,
+      serverConfig,
+      authConfig,
+      translateItemIds
     );
   } catch (error) {
     console.error(error);
