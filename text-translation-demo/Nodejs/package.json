@@ -1,0 +1,17 @@
+{
+  "name": "@classiii-api-samples/nodejs",
+  "version": "1.0.0",
+  "description": "ClassIII API Node.js samples.",
+  "main": "auth-signature.js",
+  "author": "",
+  "license": "UNLICENSED",
+  "scripts": {
+    "ttt-async": "node ttt-async.js",
+    "ttt-sync": "node ttt-sync.js"
+  },
+  "dependencies": {
+    "form-data": "^2.5.0",
+    "superagent": "^5.1.0",
+    "ws": "^7.1.2"
+  }
+}
