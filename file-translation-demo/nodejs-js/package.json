@@ -6,12 +6,14 @@
   "author": "",
   "license": "UNLICENSED",
   "scripts": {
-    "ttt-async": "node ttt-async.js",
-    "ttt-sync": "node ttt-sync.js"
+    "file-translate": "node file-translate.js",
+    "file-translate-result": "node file-translate-result.js",
+    "file-translate-download": "node file-translate-download.js"
   },
   "dependencies": {
     "form-data": "^2.5.0",
     "superagent": "^5.1.0",
-    "ws": "^7.1.2"
+    "ws": "^7.1.2",
+    "unzipper": "^0.10.10"
   }
 }

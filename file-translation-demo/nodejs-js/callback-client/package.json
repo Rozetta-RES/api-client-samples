@@ -1,0 +1,11 @@
+{
+  "name": "callbackclient",
+  "version": "1.0.0",
+  "description": "callback client",
+  "main": "index.js",
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^0.19.2"
+  }
+}

@@ -6,6 +6,16 @@ const crypto = require('crypto');
 const signatureHMACAlgo = 'sha256';
 const signatureHMACEncoding = 'hex';
 
+const serverConfig = {
+  protocol: 'https:',
+  hostname: 'translate.classiii.io',
+  port: 443
+};
+const authConfig = {
+  accessKey: 'ACCESS_KEY',
+  secretKey: 'SECRET_KEY'
+};
+
 /**
  * Generates a request signature.
  *
@@ -23,5 +33,7 @@ const generateSignature = (path, secretKey, nonce) => {
 };
 
 module.exports = {
+  serverConfig,
+  authConfig,
   generateSignature,
 };
