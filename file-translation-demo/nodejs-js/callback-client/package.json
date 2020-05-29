@@ -3,15 +3,9 @@
   "version": "1.0.0",
   "description": "callback client",
   "main": "index.js",
-  "scripts": {
-    "test": "jest"
-  },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "axios": "^0.19.2"
-  },
-  "devDependencies": {
-    "jest": "^25.3.0"
   }
 }

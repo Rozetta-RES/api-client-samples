@@ -3,8 +3,6 @@ const app = express();
 
 app.use(express.json());
 
-
-
 app.post('/api/callback', (req, res) => {
     console.log(`access-key:${req.headers['access-key']}`);
     console.log(`body:${JSON.stringify(req.body)}`);
