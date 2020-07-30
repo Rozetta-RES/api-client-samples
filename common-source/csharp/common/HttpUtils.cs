@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Text;
@@ -56,11 +57,10 @@ namespace common
                 {
                     var fileNameOnly = Path.GetFileName(filePair.Value);
                     var fileContent = new StreamContent(File.OpenRead(filePair.Value));
-                    fileContent.Headers.ContentDisposition = new System.Net.Http.Headers.ContentDispositionHeaderValue("form-data")
-                    {
-                        Name = filePair.Key,
-                        FileName = fileNameOnly
-                    };
+                    string fileNameHeader = string.Format("form-data; name=\"{0}\" ;filename=\"{1}\"", filePair.Key, fileNameOnly);
+
+                    fileContent.Headers.Add("Content-Disposition",
+                        new string(Encoding.UTF8.GetBytes(fileNameHeader).Select(b => (char)b).ToArray()));
                     fileContent.Headers.ContentType = new MediaTypeHeaderValue("application/octet-stream");
                     content.Add(fileContent);
                 }
