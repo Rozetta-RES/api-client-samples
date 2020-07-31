@@ -11,7 +11,11 @@ namespace TextTranslationDemo
         {            
             UserInfo.init("config.json");            
             string baseUrl = "https://translate.classiii.info/api/v1";
-            ClassiiiUser classiiiUser = new ClassiiiUser { AccessKey = UserInfo.CLASSIII_ACCESS_KEY, SecretKey = UserInfo.CLASSIII_SECRET_KEY };
+            ClassiiiUser classiiiUser = new ClassiiiUser {
+                AccessKey = UserInfo.CLASSIII_ACCESS_KEY,
+                SecretKey = UserInfo.CLASSIII_SECRET_KEY,
+                ContractId = UserInfo.TEXT_CONTRACT_ID
+            };
             // テキスト翻訳を試す
             await TestTextTranslation(baseUrl, classiiiUser);
             // ユーザー辞書を試す

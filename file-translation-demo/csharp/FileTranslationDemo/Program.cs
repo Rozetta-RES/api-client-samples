@@ -19,7 +19,11 @@ namespace FileTranslationDemo
             bool done = false;
             //done = await flow.T4ooFlowAsync(t4ooUser, files, langs, fieldId);
             //Debug.Assert(done);
-            ClassiiiUser classiiiUser = new ClassiiiUser { AccessKey = UserInfo.CLASSIII_ACCESS_KEY, SecretKey = UserInfo.CLASSIII_SECRET_KEY };
+            ClassiiiUser classiiiUser = new ClassiiiUser {
+                AccessKey = UserInfo.CLASSIII_ACCESS_KEY,
+                SecretKey = UserInfo.CLASSIII_SECRET_KEY,
+                ContractId = UserInfo.FILE_CONTRACT_ID
+            };
             done = await flow.ClassiiiFlowAsync(classiiiUser, files, langs, fieldId);
             Debug.Assert(done);
         }
