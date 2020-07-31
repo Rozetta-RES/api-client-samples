@@ -63,7 +63,7 @@ namespace FileTranslationDemo
             return new ClassiiiUser { AccessKey = serverResp.data.accessKey, SecretKey = serverResp.data.secretKey };
         }
 
-        public async Task<string> TranslateAsync(string[] files, FileTranslationOption option)
+        public async Task<string> TranslateAsync(string[] files, string contractId, FileTranslationOption option)
         {
             string url = baseUrl + "/file-translate";
 
@@ -74,6 +74,9 @@ namespace FileTranslationDemo
                     { "fieldId", option.FieldId.ToString() },
                     { "targetLangs", JsonConvert.SerializeObject(option.Langs) }
             };
+            if (!string.IsNullOrEmpty(contractId)){
+                body.Add("contractId", contractId);
+            }
 
             Dictionary<string, string> fileDict = new Dictionary<string, string>();
             foreach(string file in files)

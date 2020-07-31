@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29215.179
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "TextTranslationDemo", "TextTranslationDemo\TextTranslationDemo.vbproj", "{224EEC8E-CEDF-09F5-2FA4-896DF08C47FF}"
+EndProject
+Project("{778DAE3C-4631-46EA-AA77-85C1314464D9}") = "common", "..\..\common-source\vb.net\common\common.vbproj", "{731839F6-AFEA-443F-BCD4-074F8805A3D0}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{224EEC8E-CEDF-09F5-2FA4-896DF08C47FF}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{224EEC8E-CEDF-09F5-2FA4-896DF08C47FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{224EEC8E-CEDF-09F5-2FA4-896DF08C47FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{224EEC8E-CEDF-09F5-2FA4-896DF08C47FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{731839F6-AFEA-443F-BCD4-074F8805A3D0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{731839F6-AFEA-443F-BCD4-074F8805A3D0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{731839F6-AFEA-443F-BCD4-074F8805A3D0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{731839F6-AFEA-443F-BCD4-074F8805A3D0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {3EF249AA-0731-43B6-8CF0-889D770BB5C3}
+	EndGlobalSection
+EndGlobal

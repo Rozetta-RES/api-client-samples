@@ -44,7 +44,7 @@ namespace FileTranslationDemo
                 FieldId = fieldId
             };
 
-            translateId = await client.TranslateAsync(files, option);
+            translateId = await client.TranslateAsync(files, classiiiUser.ContractId, option);
 
             if (aTimer != null)
                 StopTimer(aTimer);

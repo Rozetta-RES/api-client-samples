@@ -24,7 +24,7 @@ namespace TextTranslationDemo
 
             Dictionary<string, object> headers= HttpUtils.BuildHeaders(classiiiUser, url);
 
-            Dictionary<string, object> body = BuildBody(option, text);
+            Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body);
 
@@ -42,13 +42,15 @@ namespace TextTranslationDemo
             return serverResp.data.translationResult;
         }
 
-        private static Dictionary<string, object> BuildBody(TextTranslationOption option, string[] text)
+        private static Dictionary<string, object> BuildBody(TextTranslationOption option,string contractId, string[] text)
         {
             Dictionary<string, object> body = new Dictionary<string, object>();
             body.Add("fieldId", option.FieldId.ToString());
             body.Add("targetLang", option.TargetLang);
             body.Add("sourceLang", option.SourceLang);
             body.Add("text", text);
+            if (contractId != null)
+                body.Add("contractId", contractId);
             if (option.AutoSplit != null)
                 body.Add("autoSplit", option.AutoSplit);
             if (option.Type != null)
@@ -69,7 +71,7 @@ namespace TextTranslationDemo
 
             Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
 
-            Dictionary<string, object> body = BuildBody(option, text);
+            Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body);
 
