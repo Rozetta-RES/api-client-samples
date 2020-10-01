@@ -6,17 +6,17 @@
 ### <a name="authcode"></a>&nbsp;&nbsp;1) . authcodeを取得する
 &nbsp;&nbsp;&nbsp;&nbsp;
 T4OOのorgId，userIdを使って、ファイル翻訳API(/auth-code)からauthcodeを取得します。
-### &nbsp;&nbsp;2) . T4OO認証行い、CLASSIIIユーザーを作成する
+### &nbsp;&nbsp;2) . T4OO認証を行い、Rozetta APIユーザーを作成する
 &nbsp;&nbsp;&nbsp;&nbsp;
 サーバ側から[authcode](#authcode)を使って、T4OOのパスワードを暗号化します。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
 T4OOのorgId、userId、暗号化のパスワードを使って、ファイル翻訳API(/authenticate)でT4OOの認証を行います。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
-認証成功した後、CLASSIIIユーザー情報（AccessKey, SecretKey）を入手します。<br/>
+認証成功した後、Rozetta APIユーザー情報（AccessKey, SecretKey）を入手します。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
-その後は、CLASSIIIユーザーと同じ下記のような流れです。
+その後は、Rozetta APIユーザーと同じ下記のような流れです。
 
-## 3 CLASSIIIユーザーの場合
+## 3 Rozetta APIユーザーの場合
 ### &nbsp;&nbsp;1) . ファイルをアップロードする
 &nbsp;&nbsp;&nbsp;&nbsp;
 複数のファイルを一度にアップロードすることが可能です。<br/>

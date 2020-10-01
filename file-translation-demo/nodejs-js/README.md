@@ -1,6 +1,6 @@
-# CLASSIII API コードサンプル (Node.js)
+# Rozetta API コードサンプル (Node.js)
 
-このディレクトリには、Node.jsでCLASSIII APIを利用する簡単なサンプルコードを置いています。
+このディレクトリには、Node.jsでRozetta APIを利用する簡単なサンプルコードを置いています。
 
 
 ## Requirements
@@ -31,9 +31,9 @@ npm run file-translate-download
 
 ```
 
-# CLASSIII API code examples (Node.js)
+# Rozetta API code examples (Node.js)
 
-This directory contains simple Node.js programs to demonstrate the CLASSIII API
+This directory contains simple Node.js programs to demonstrate the Rozetta API
 usage.
 
 ## Requirements

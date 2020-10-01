@@ -1,6 +1,6 @@
-# CLASSIII API コードサンプル (Java)
+# Rozetta API コードサンプル (Java)
 
-このディレクトリには、JavaでCLASSIII APIを利用する簡単なサンプルコードを置いています。
+このディレクトリには、JavaでRozetta APIを利用する簡単なサンプルコードを置いています。
 
 ## Requirements
 
@@ -20,9 +20,9 @@ java AuthSignature
 ```
 
 
-# CLASSIII API code examples (Java)
+# Rozetta API code examples (Java)
 
-This directory contains simple Java programs to demonstrate the CLASSIII API
+This directory contains simple Java programs to demonstrate the Rozetta API
 usage.
 
 ## Requirements

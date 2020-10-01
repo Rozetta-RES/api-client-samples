@@ -1,6 +1,6 @@
-# CLASSIII API コードサンプル (PHP)
+# Rozetta API コードサンプル (PHP)
 
-このディレクトリには、PHPでCLASSIII APIを利用する簡単なサンプルコードを置いています。
+このディレクトリには、PHPでRozetta APIを利用する簡単なサンプルコードを置いています。
 
 ## Requirements
 
@@ -24,9 +24,9 @@ php.exe ttt-sync.php
 ```
 
 
-# CLASSIII API code examples (PHP)
+# Rozetta API code examples (PHP)
 
-This directory contains simple PHP programs to demonstrate the CLASSIII API
+This directory contains simple PHP programs to demonstrate the Rozetta API
 usage.
 
 ## Requirements
