@@ -1,7 +1,7 @@
-# classiii-api-samples
-CLASSIII APIの利用にあたってのサンプルコードです。
+# rozetta-api-samples
+Rozetta APIの利用にあたってのサンプルコードです。
 
-Code examples for CLASSⅢ API.
+Code examples for Rozetta API.
 
 - authenticate-demo  認証
 - file-translation-demo ファイル翻訳
