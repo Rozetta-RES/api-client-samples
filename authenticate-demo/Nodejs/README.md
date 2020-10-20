@@ -21,7 +21,7 @@ npm install
 * auth-signature.js - 認証用署名を生成するサンプルコード。
 * jwt.js - 認証用トークンを生成するサンプルコード。
 
-認証用署名を生成したい場合は、`auth-signature.js`に下記変数を変更します：
+認証用署名を生成したい場合は、`auth-signature.js`で下記変数を変更します：
 
 * `authConfig.accessKey` - アクセスキー。
 * `authConfig.secretKey` - シークレットキー。
@@ -33,7 +33,7 @@ Node.jsで`auth-signature.js`を実行します：
 npm run auth-signature
 ```
 
-下記のような結果がもらえます：
+下記のような結果が得られます：
 
 ```
 Access key: YOUR_ACCESSKEY
@@ -42,7 +42,7 @@ Nonce: 1603173327657
 Path: /api/v1/translate
 ```
 
-認証用トークンを生成したい場合は、`jwt.js`に下記変数を変更します：
+認証用トークンを生成したい場合は、`jwt.js`で下記変数を変更します：
 
 * `userId` - Rozetta APIユーザID。
 * `accessKey` - アクセスキー。
@@ -55,7 +55,7 @@ Node.jsで`jwt.js`を実行します：
 npm run jwt
 ```
 
-下記のような結果がもらえます：
+下記のような結果が得られます：
 
 ```
 JWT: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE2MDMxNzUzODQsImlzcyI6Ik15VXNlcklEIiwiYWNjZXNzS2V5IjoibXktYWNjZXNzLWtleSIsImlhdCI6MTYwMzE3MzU4NH0.8TV7YC10OT8p4gAZ0zvowb3nyPcfznGivXpZfFseO0w
