@@ -6,6 +6,10 @@
   "author": "",
   "license": "UNLICENSED",
   "scripts": {
-    "auth-signature": "node auth-signature.js"
+    "auth-signature": "node auth-signature.js",
+    "jwt": "node jwt.js"
+  },
+  "dependencies": {
+    "jsonwebtoken": "^8.5.1"
   }
 }
