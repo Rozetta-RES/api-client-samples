@@ -45,9 +45,9 @@ Nonce: 1603173327657
 Path: /api/v1/translate
 ```
 
-### 認証用トークンで認証してRozetta APIを叩く
+### 認証用トークンで認証してRozetta APIを利用する
 
-認証用署名の代わりに、認証用トークンで認証してRozetta APIを叩きたい場合は、
+認証用署名の代わりに、認証用トークンで認証してRozetta APIを利用したい場合は、
 `auth-by-token.js`で下記変数を変更します：
 
 * `token` - 取得した又は生成したトークン。
