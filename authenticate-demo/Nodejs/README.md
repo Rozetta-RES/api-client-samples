@@ -18,7 +18,7 @@ npm install
 
 現在、下記のサンプルコードをご利用いただくことができます。
 
-* auth-by-token.js - 認証用トークンで認証してRozetta APIを叩く。
+* auth-by-token.js - 認証用トークンで認証してRozetta APIを利用する。
 * auth-signature.js - 認証用署名を生成するサンプルコード。
 * jwt.js - 認証用トークンを生成するサンプルコード。
 
@@ -64,7 +64,7 @@ npm run auth-by-token
 { status: 'success', message: 'hello, world!' }
 ```
 
-このサンプルは`/api/v1/hello`APIを叩きますが、他のRozetta APIもトークンで認証できます。
+このサンプルは`/api/v1/hello`APIを利用しますが、他のRozetta APIもトークンで認証できます。
 
 トークンの生成方法について、「認証用トークンを生成する」と「認証用トークンをRozetta APIから
 取得する」を参照してください。
