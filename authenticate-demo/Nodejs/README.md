@@ -18,8 +18,11 @@ npm install
 
 現在、下記のサンプルコードをご利用いただくことができます。
 
+* auth-by-token.js - 認証用トークンで認証してRozetta APIを叩く。
 * auth-signature.js - 認証用署名を生成するサンプルコード。
 * jwt.js - 認証用トークンを生成するサンプルコード。
+
+### 認証用署名を生成する
 
 認証用署名を生成したい場合は、`auth-signature.js`で下記変数を変更します：
 
@@ -42,7 +45,33 @@ Nonce: 1603173327657
 Path: /api/v1/translate
 ```
 
-認証用トークンを生成したい場合は、`jwt.js`で下記変数を変更します：
+### 認証用トークンで認証してRozetta APIを叩く
+
+認証用署名の代わりに、認証用トークンで認証してRozetta APIを叩きたい場合は、
+`auth-by-token.js`で下記変数を変更します：
+
+* `token` - 取得した又は生成したトークン。
+
+Node.jsで`auth-by-token.js`を実行します：
+
+```
+npm run auth-by-token
+```
+
+下記のような結果が得られます：
+
+```
+{ status: 'success', message: 'hello, world!' }
+```
+
+このサンプルは`/api/v1/hello`APIを叩きますが、他のRozetta APIもトークンで認証できます。
+
+トークンの生成方法について、「認証用トークンを生成する」と「認証用トークンをRozetta APIから
+取得する」を参照してください。
+
+### 認証用トークンを生成する
+
+認証用トークンを生成したい場合は、`jwt-generate.js`で下記変数を変更します：
 
 * `userId` - Rozetta APIユーザID。
 * `accessKey` - アクセスキー。
