@@ -15,7 +15,8 @@ const apiEndpoint = `ws://localhost:3000${apiPath}`;
 const authConfig = {
   accessKey: 'ACCESS_KEY',
   secretKey: 'SECRET_KEY',
-  nonce: Date.now().toString()
+  nonce: Date.now().toString(),
+  contractId: 'CONTRACT_ID',
 };
 const speechData = {
   language: 'zh-CN',
@@ -63,6 +64,19 @@ const generateSignature = (path, secretKey, nonce) => {
   return hmac.digest(signatureHMACEncoding);
 };
 
+const getAuth = (url) => {
+  const nonce = Date.now().toString();
+  return {
+      accessKey: authConfig.accessKey,
+      nonce: nonce,
+      signature: generateSignature(url, authConfig.secretKey, nonce),
+      remoteurl: url,
+      contractId: authConfig.contractId
+  }
+}
+
+
+
 const handleSessionMessage = (connection, message) => {
   const messageJSON = JSON.parse(message);
   switch (messageJSON.type) {
@@ -106,22 +120,10 @@ const handleSessionMessage = (connection, message) => {
 
 const main = async () => {
   speechData.audioBuffer = await fsPromise.readFile(speechData.audioFile);
-  const signature = generateSignature(
-    apiPath,
-    authConfig.secretKey,
-    authConfig.nonce
-  );
-  const connection = new WebSocket(
-    apiEndpoint,
-    {
-      method: 'GET',
-      headers: {
-        accessKey: authConfig.accessKey,
-        signature,
-        nonce: authConfig.nonce
-      }
-    }
-  );
+  const auth = AuthUtil.getAuth(this._apiPath);
+  const auth64 = btoa(JSON.stringify(auth));
+  const url = `${apiEndpoint}?auth=${auth64}`
+  const connection = new WebSocket(url);
   connection.on('open', () => {
     console.log('Connected to streaming STT API.');
     // Once connected, set the speech language.
