@@ -7,11 +7,12 @@
 const fs = require('fs');
 const WebSocket = require('ws');
 const crypto = require('crypto');
+const btoa = require('btoa');
 
 const fsPromise = fs.promises;
 
 const apiPath = '/api/v1/translate/stt-streaming';
-const apiEndpoint = `ws://localhost:3000${apiPath}`;
+const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
 const authConfig = {
   accessKey: 'ACCESS_KEY',
   secretKey: 'SECRET_KEY',
@@ -75,8 +76,6 @@ const getAuth = (url) => {
   }
 }
 
-
-
 const handleSessionMessage = (connection, message) => {
   const messageJSON = JSON.parse(message);
   switch (messageJSON.type) {
@@ -120,9 +119,12 @@ const handleSessionMessage = (connection, message) => {
 
 const main = async () => {
   speechData.audioBuffer = await fsPromise.readFile(speechData.audioFile);
-  const auth = AuthUtil.getAuth(this._apiPath);
+  const auth = getAuth(apiPath);
+  console.log(apiPath);
+  console.log(auth);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${apiEndpoint}?auth=${auth64}`
+  console.log(url);
   const connection = new WebSocket(url);
   connection.on('open', () => {
     console.log('Connected to streaming STT API.');
