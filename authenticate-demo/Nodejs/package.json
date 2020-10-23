@@ -6,6 +6,7 @@
   "author": "",
   "license": "UNLICENSED",
   "scripts": {
+    "auth-by-token": "node auth-by-token.js",
     "auth-signature": "node auth-signature.js",
     "jwt-generate": "node jwt-generate.js",
     "jwt-request": "node jwt-request.js"
