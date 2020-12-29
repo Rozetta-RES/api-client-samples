@@ -12,20 +12,20 @@ const btoa = require('btoa');
 const fsPromise = fs.promises;
 
 const apiPath = '/api/v1/translate/stt-streaming';
-const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
+const apiEndpoint = `wss://staging1.classiii.info${apiPath}`;
 const authConfig = {
-  accessKey: 'ACCESS_KEY',
-  secretKey: 'SECRET_KEY',
+  accessKey: 'a91ca9a65a076af060caf1a5dd2efb57b300ae4c68454a09f9fc72222f95d71e',
+  secretKey: '8e211d4d64920c8169c6f413f73baa706b1625b668d31d5f94a81c0ddeea18b391432753f7a04dc82b5d05d753998608',
   nonce: Date.now().toString(),
-  contractId: 'CONTRACT_ID',
+  contractId: '12b7fa50-d0b0-11ea-ad62-b568e8b6e6f6',
 };
 const speechData = {
-  language: 'zh-CN',
+  language: 'ja',
   samplingRate: 16000,
-  audioFile: 'zh_cn.wav',
-  audioBuffer: null,
+  audioFile: 'user01-02.wav'
 };
 
+const start = Date.now();
 /**
 * Command type sent from the client.
 */
@@ -90,18 +90,19 @@ const handleSessionMessage = (connection, message) => {
     case responseType.samplingRateReady:
       // The language is set. Send the audio data stream.
       console.log('Sampling rate is set. Send audio data stream.');
-      connection.send(speechData.audioBuffer, (error) => {
-        if (error) {
-          console.error(error.message);
-        }
-        connection.send(JSON.stringify({
-          command: commandType.endStream,
-        }));
-      });
+      fs.createReadStream(speechData.audioFile).on('data', (buf) => {
+        connection.send(buf, (error) => {
+          if (error) {
+            console.error(error.message);
+          }
+        });
+      }).on('end', () => connection.send(JSON.stringify({
+        command: commandType.endStream,
+      })));
       break;
     case responseType.recognitionResult:
-      console.log('Recognized transcript:');
-      console.log(messageJSON.value);
+      console.log(`Recognized transcript:${Date.now() - start} milliseconds`);
+      console.log(messageJSON);
       break;
     case responseType.recognitionError:
       console.error('Recognition error:');
@@ -118,10 +119,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  speechData.audioBuffer = await fsPromise.readFile(speechData.audioFile);
   const auth = getAuth(apiPath);
-  console.log(apiPath);
-  console.log(auth);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${apiEndpoint}?auth=${auth64}`
   console.log(url);
@@ -129,10 +127,17 @@ const main = async () => {
   connection.on('open', () => {
     console.log('Connected to streaming STT API.');
     // Once connected, set the speech language.
-    connection.send(JSON.stringify({
-      command: commandType.setLanguage,
-      value: speechData.language,
-    }));
+    if (speechData.language) {
+      connection.send(JSON.stringify({
+        command: commandType.setLanguage,
+        value: speechData.language,
+      }));
+    } else {
+      connection.send(JSON.stringify({
+        command: commandType.setSamplingRate,
+        value: speechData.samplingRate,
+      }));
+    }
   });
   connection.on('message', (message) => {
     handleSessionMessage(connection, message);
