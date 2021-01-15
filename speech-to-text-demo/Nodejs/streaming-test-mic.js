@@ -4,15 +4,15 @@ const crypto = require('crypto');
 const btoa = require('btoa');
 
 const apiPath = '/api/v1/translate/stt-streaming';
-const apiEndpoint = `wss://staging1.classiii.info${apiPath}`;
+const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
 const authConfig = {
-  accessKey: '6a90f8a97bef823dcc5917accd682139b1377c83c613f2f133763b40a393247c',
-  secretKey: '2cca28c2d9b9ea822506a8e0af8347e755712fc2eaf7f53125701d705e681e683bb3732c72e5a022f931eaf7f39b24dc',
+  accessKey: 'dc9cd4ac9a11639ba404273d7a702ffc0694b24ab42108c1cd4be7f4676535d8',
+  secretKey: 'cae7b345386cf95863de78b9ce9552bc5bbf14aecac5412d041aaf8bbb6bf4b81223809dc64093093a3e3102cd97f833',
   nonce: Date.now().toString(),
-  contractId: 'eca5de90-ed88-11ea-abe9-97cb3d09572e',
+  contractId: '424367c0-ec1a-11ea-b2a3-83b1a2aaa1f2',
 };
 const speechData = {
-    language: undefined,
+    language: 'ja',
     samplingRate: 16000,
 };
 
@@ -71,7 +71,20 @@ const handleSessionMessage = (connection, message) => {
       case responseType.samplingRateReady:
         // The language is set. Send the audio data stream.
         console.log('Sampling rate is set. Send audio data stream.');
-        
+        recorder.record({
+          endOnSilence: true,
+          silence: '10.0',
+        }).stream()
+        .on('data', (chunk) => {
+            connection.send(chunk, (error) => {
+                if (error) {
+                    console.error(error.message);
+                }
+            });
+        })
+        .on('end', () => {
+          console.log('Recorder end');
+        });
         break;
       case responseType.recognitionResult:
         console.log('Recognized transcript:');
@@ -99,29 +112,10 @@ const main = async () => {
     connection.on('open', () => {
       console.log('Connected to streaming STT API.');
       // Once connected, set the speech language.
-      if (speechData.language) {
         connection.send(JSON.stringify({
           command: commandType.setLanguage,
           value: speechData.language,
         }));
-      } else {
-        recorder
-        .record({
-          endOnSilence: true,
-          silence: '10.0',
-        })
-        .stream()
-        .on('data', (chunk) => {
-            connection.send(chunk, (error) => {
-                if (error) {
-                    console.error(error.message);
-                }
-            });
-        })
-        .on('end', () => {
-          console.log('Recorder end');
-        });
-      }
     });
     connection.on('message', (message) => {
       handleSessionMessage(connection, message);
@@ -132,6 +126,7 @@ const main = async () => {
     });
     connection.on('close', () => {
       console.log('Connection closed.');
+      recorder.stop();
     });
 };
 

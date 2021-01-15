@@ -12,17 +12,17 @@ const btoa = require('btoa');
 const fsPromise = fs.promises;
 
 const apiPath = '/api/v1/translate/stt-streaming';
-const apiEndpoint = `wss://staging1.classiii.info${apiPath}`;
+const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
 const authConfig = {
-  accessKey: 'a91ca9a65a076af060caf1a5dd2efb57b300ae4c68454a09f9fc72222f95d71e',
-  secretKey: '8e211d4d64920c8169c6f413f73baa706b1625b668d31d5f94a81c0ddeea18b391432753f7a04dc82b5d05d753998608',
+  accessKey: 'dc9cd4ac9a11639ba404273d7a702ffc0694b24ab42108c1cd4be7f4676535d8',
+  secretKey: 'cae7b345386cf95863de78b9ce9552bc5bbf14aecac5412d041aaf8bbb6bf4b81223809dc64093093a3e3102cd97f833',
   nonce: Date.now().toString(),
-  contractId: '12b7fa50-d0b0-11ea-ad62-b568e8b6e6f6',
+  contractId: '424367c0-ec1a-11ea-b2a3-83b1a2aaa1f2',
 };
 const speechData = {
   language: 'ja',
   samplingRate: 16000,
-  audioFile: 'user01-02.wav'
+  audioFile: 'ja_jp.wav'
 };
 
 const start = Date.now();
