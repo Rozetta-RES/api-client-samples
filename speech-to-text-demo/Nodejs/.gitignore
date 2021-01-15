@@ -1,0 +1,13 @@
+node_modules/
+dist/
+server/.DS_Store
+.env
+.DS_Store
+.vscode/launch.json
+server/*/coverage
+
+# gatsby files
+.cache
+public
+.idea
+*.log
