@@ -14,10 +14,10 @@ const fsPromise = fs.promises;
 const apiPath = '/api/v1/translate/stt-streaming';
 const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
 const authConfig = {
-  accessKey: 'dc9cd4ac9a11639ba404273d7a702ffc0694b24ab42108c1cd4be7f4676535d8',
-  secretKey: 'cae7b345386cf95863de78b9ce9552bc5bbf14aecac5412d041aaf8bbb6bf4b81223809dc64093093a3e3102cd97f833',
+  accessKey: 'ACCESS_KEY',
+  secretKey: 'SECRET_KEY',
   nonce: Date.now().toString(),
-  contractId: '424367c0-ec1a-11ea-b2a3-83b1a2aaa1f2',
+  contractId: 'CONTRACT_ID',
 };
 const speechData = {
   language: 'ja',

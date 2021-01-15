@@ -6,10 +6,10 @@ const btoa = require('btoa');
 const apiPath = '/api/v1/translate/stt-streaming';
 const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
 const authConfig = {
-  accessKey: 'dc9cd4ac9a11639ba404273d7a702ffc0694b24ab42108c1cd4be7f4676535d8',
-  secretKey: 'cae7b345386cf95863de78b9ce9552bc5bbf14aecac5412d041aaf8bbb6bf4b81223809dc64093093a3e3102cd97f833',
+  accessKey: 'ACCESS_KEY',
+  secretKey: 'SECRET_KEY',
   nonce: Date.now().toString(),
-  contractId: '424367c0-ec1a-11ea-b2a3-83b1a2aaa1f2',
+  contractId: 'CONTRACT_ID',
 };
 const speechData = {
     language: 'ja',
@@ -130,41 +130,4 @@ const main = async () => {
     });
 };
 
-/*
-const main = async () => {
-  const WebSocketClient = require('websocket').client
-  let client = new WebSocketClient()
-  client.on('connect', function (connection) {
-    console.log('Connected')
-    connection.on('error', function (error) {
-      console.log('Connection Error: ' + error.toString())
-    })
-    connection.on('close', function () {
-      console.log('Connection Closed')
-    })
-    connection.on('message', function (message) {
-      if (message.type === 'utf8') {
-        console.log('Received:', message.utf8Data)
-      }
-    })
-    recorder
-        .record({
-          sampleRate: 16000,
-          threshold: 0.5,
-          endOnSilence: true,
-          silence: '15.0',
-        })
-        .stream()
-        .on('data', (chunk) => {
-          connection.sendUTF(JSON.stringify(chunk))
-        })
-        .on('end', () => {
-          console.log('Recorder end');
-          recognizer.end();
-        });
-  })
-  
-  client.connect("wss://api.stt.dandi-poc-1.poc-dev.com" + '?uid=alt-aigijiroku', 'echo-protocol')
-}
-*/
 main();
