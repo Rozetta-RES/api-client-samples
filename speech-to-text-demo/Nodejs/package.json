@@ -12,6 +12,8 @@
     "btoa": "^1.2.1",
     "crypto": "^1.0.1",
     "fs": "0.0.1-security",
+    "jsonwebtoken": "^8.5.1",
+    "node-fetch": "^2.6.1",
     "node-record-lpcm16": "^1.0.1",
     "websocket": "^1.0.32",
     "ws": "^7.3.1"
