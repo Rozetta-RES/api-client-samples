@@ -47,7 +47,6 @@ const getAuth = (authConfig, url) => {
       nonce: nonce,
       signature: generateSignature(url, authConfig.secretKey, nonce),
       remoteurl: url,
-      contractId: authConfig.contractId
   }
 }
 
