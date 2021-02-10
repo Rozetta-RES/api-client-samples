@@ -8,21 +8,13 @@ const fs = require('fs');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const btoa = require('btoa');
-
-const fsPromise = fs.promises;
+const envConfigs = require('./account');
 
 const apiPath = '/api/v1/translate/stt-streaming';
-const apiEndpoint = `wss://translate.classiii.io${apiPath}`;
-const authConfig = {
-  accessKey: 'ACCESS_KEY',
-  secretKey: 'SECRET_KEY',
-  nonce: Date.now().toString(),
-  contractId: 'CONTRACT_ID',
-};
 const speechData = {
-  language: 'ja',
+  language: 'zh-CN',
   samplingRate: 16000,
-  audioFile: 'ja_jp.wav'
+  audioFile: 'zh_cn-lHwoR4sOkaM.wav'
 };
 
 const start = Date.now();
@@ -65,14 +57,13 @@ const generateSignature = (path, secretKey, nonce) => {
   return hmac.digest(signatureHMACEncoding);
 };
 
-const getAuth = (url) => {
+const getAuth = (authConfig, url) => {
   const nonce = Date.now().toString();
   return {
       accessKey: authConfig.accessKey,
       nonce: nonce,
       signature: generateSignature(url, authConfig.secretKey, nonce),
       remoteurl: url,
-      contractId: authConfig.contractId
   }
 }
 
@@ -96,9 +87,7 @@ const handleSessionMessage = (connection, message) => {
             console.error(error.message);
           }
         });
-      }).on('end', () => connection.send(JSON.stringify({
-        command: commandType.endStream,
-      })));
+      });
       break;
     case responseType.recognitionResult:
       console.log(`Recognized transcript:${Date.now() - start} milliseconds`);
@@ -119,9 +108,10 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const auth = getAuth(apiPath);
+  const env = envConfigs.signansStg;
+  const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
-  const url = `${apiEndpoint}?auth=${auth64}`
+  const url = `${env.host}${apiPath}?auth=${auth64}`;
   console.log(url);
   const connection = new WebSocket(url);
   connection.on('open', () => {
