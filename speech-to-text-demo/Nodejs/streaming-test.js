@@ -12,9 +12,9 @@ const envConfigs = require('./account');
 
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'en',
+  language: 'zh-CN',
   samplingRate: 16000,
-  audioFile: 'en.wav'
+  audioFile: 'zh_cn-lHwoR4sOkaM.wav'
 };
 
 const start = Date.now();
@@ -64,7 +64,6 @@ const getAuth = (authConfig, url) => {
       nonce: nonce,
       signature: generateSignature(url, authConfig.secretKey, nonce),
       remoteurl: url,
-      contractId: authConfig.contractId
   }
 }
 
@@ -109,7 +108,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.signans;
+  const env = envConfigs.signansStg;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;

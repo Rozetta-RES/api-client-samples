@@ -7,9 +7,10 @@
 const fs = require('fs');
 const WebSocket = require('ws');
 const envConfigs = require('./account');
-const jwt = require('jsonwebtoken');
+const fetch = require('node-fetch');
 
 const apiPath = '/api/v1/translate/stt-streaming';
+const tokenPath = '/api/v1/token';
 const speechData = {
     language: 'en',
     samplingRate: 16000,
@@ -37,25 +38,21 @@ const responseType = {
     recognitionError: 'RECOGNITION_ERROR',
 };
 
-const TOKEN_SIGNING_OPTIONS = {
-    algorithm: 'HS256',
-  };
-
-const getJwtToken = (userId, accessKey, secretKey, contractId) => {
-    const validDuration = 60 * 30;
-    const payload = {
-        exp: Math.floor(Date.now() / 1000) + validDuration,
-        iss: userId,
+const getJwtToken = async (url, accessKey, secretKey) => {
+    const data = {
         accessKey,
-        contractId,
+        secretKey,
+        duration: 300
     };
-    try {
-        const encodedJWT = jwt.sign(payload, secretKey, TOKEN_SIGNING_OPTIONS);
-        return encodedJWT;
-    } catch (e) {
-        console.error(e);
-        return null;
-    }
+    const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(data)
+    });
+    const responseJSON = await response.json();
+    return responseJSON.data.encodedJWT;
 }
 
 const handleSessionMessage = (connection, message) => {
@@ -99,9 +96,10 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-    const env = envConfigs.local;
-    const token = getJwtToken(env.authConfig.userId, env.authConfig.accessKey, 
-        env.authConfig.secretKey, env.authConfig.contractId);
+    const env = envConfigs.signansStg;
+    const { accessKey, secretKey } = env.authConfig;
+    const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
+    const token = await getJwtToken(tokenUrl, accessKey, secretKey);
     if (token) {
         const url = `${env.host}${apiPath}?token=Bearer ${token}`;
         console.log(url);
@@ -134,7 +132,7 @@ const main = async () => {
     } else {
         console.error('JwtToken error');
     }
-    
+
 };
 
 main();

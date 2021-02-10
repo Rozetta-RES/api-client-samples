@@ -6,7 +6,7 @@ const btoa = require('btoa');
 const envConfigs = require('./account');
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'ja',
+  language: 'zh-CN',
   samplingRate: 16000,
 };
 
@@ -84,8 +84,9 @@ const handleSessionMessage = (connection, message) => {
         });
       break;
     case responseType.recognitionResult:
-      console.log('Recognized transcript:');
-      console.log(messageJSON);
+      if (messageJSON.status === 'recognized') {
+        console.log(messageJSON.value);
+      }
       break;
     case responseType.recognitionError:
       console.error('Recognition error:');
@@ -102,7 +103,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.signans;
+  const env = envConfigs.stg2;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;
