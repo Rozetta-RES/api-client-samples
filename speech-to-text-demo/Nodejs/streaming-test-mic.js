@@ -2,32 +2,13 @@ const recorder = require('node-record-lpcm16');
 const WebSocket = require('ws');
 const crypto = require('crypto');
 const btoa = require('btoa');
+const {commandType, responseType} = require('./const');
 
 const envConfigs = require('./account');
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'zh-CN',
+  language: 'vi',
   samplingRate: 16000,
-};
-
-/**
-* Command type sent from the client.
-*/
-const commandType = {
-  setLanguage: 'SET_LANGUAGE',
-  setSamplingRate: 'SET_SAMPLING_RATE',
-  endStream: 'END_STREAM',
-  endSession: 'END_SESSION',
-};
-
-/**
- * Response types received from API endpoint.
- */
-const responseType = {
-  languageReady: 'LANGUAGE_READY',
-  samplingRateReady: 'SAMPLING_RATE_READY',
-  recognitionResult: 'RECOGNITION_RESULT',
-  recognitionError: 'RECOGNITION_ERROR',
 };
 
 const signatureHMACAlgo = 'sha256';
@@ -69,7 +50,7 @@ const handleSessionMessage = (connection, message) => {
         sampleRate: 16000,
         threshold: 0.5,
         endOnSilence: true,
-        silence: '15.0',
+        silence: '5.0',
       }).stream()
         .on('data', (chunk) => {
           connection.send(chunk, (error) => {
@@ -80,12 +61,14 @@ const handleSessionMessage = (connection, message) => {
         })
         .on('end', () => {
           console.log('Recorder end');
+          connection.send(JSON.stringify({
+            command: commandType.endSession,
+          }));
         });
       break;
     case responseType.recognitionResult:
-      if (messageJSON.status === 'recognized') {
-        console.log(messageJSON.value);
-      }
+      console.log(`${new Date().toLocaleString()}`);
+      console.log(messageJSON);
       break;
     case responseType.recognitionError:
       console.error('Recognition error:');
@@ -102,7 +85,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.stg2;
+  const env = envConfigs.signansStg;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;
