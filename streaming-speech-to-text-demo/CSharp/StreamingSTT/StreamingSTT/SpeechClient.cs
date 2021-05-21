@@ -1,9 +1,12 @@
-﻿using NAudio.Wave;
+﻿using common;
+using NAudio.Wave;
 using Newtonsoft.Json;
 using StreamingSTT.Models;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 using System.IO;
+using System.Net.Http;
 using System.Net.WebSockets;
 using System.Security.Cryptography;
 using System.Text;
@@ -14,8 +17,11 @@ namespace StreamingSTT
 {
     public class SpeechClient
     {
+        private static string host = "translate.classiii.io";
         private static string path => "/api/v1/translate/stt-streaming";
-        private static string endpoint => $"wss://translate.classiii.io{ path }";
+        private static string sttEndpoint => $"wss://{host}{ path }";
+
+        private static string jwtEndpoint => $"https://{host}/api/v1/token";
         private string AccessKey { get; set; }
         private string SecretKey { get; set; }
         private string ContractId { get; set; }
@@ -38,9 +44,12 @@ namespace StreamingSTT
 
         public async Task SpeechToText()
         {
-            var authData = GenerateAuthData(path, AccessKey, SecretKey, ContractId);
-            var authString = GenerateAuthString(authData);
-            var uri = $"{endpoint}?auth={authString}";
+            //var authData = GenerateAuthData(path, AccessKey, SecretKey, ContractId);
+            //var authString = GenerateAuthString(authData);
+            //var uri = $"{endpoint}?auth={authString}";
+
+            var jwtToken =await HttpUtils.GenerateJwtDataAsync(AccessKey, SecretKey, 3 * 60 /* 3 minutes */, jwtEndpoint);
+            var uri = $"{sttEndpoint}?token=Bearer {jwtToken}";
 
             var waveIn = new WaveInEvent();
             // デフォルト録音デバイスを利用します。
@@ -61,6 +70,7 @@ namespace StreamingSTT
             };
 
             var client = new ClientWebSocket();
+
             await client.ConnectAsync(new Uri(uri), CancellationToken.None);
 
             // 日本語の音声を認識します。
