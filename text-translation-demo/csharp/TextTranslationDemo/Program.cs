@@ -83,17 +83,6 @@ namespace TextTranslationDemo
             Debug.Assert(textTranslationResults[0].translatedText == "おはよう");
             // ユーザー辞書を確認 ----------------------------------------------------- end
 
-            // ユーザー辞書を更新
-            UserDictionaryItem itemNew = new UserDictionaryItem { fromLang = "en", fromText = "hello", toLang = "ja", toText = "こんにちは" };
-            bRet = await userDictionaryClient.UpdateUserDictionaryItemAsync(classiiiUser, userDictionaryItems[0].id, itemNew);
-            Debug.Assert(bRet);
-
-            // ユーザー辞書を確認 -----------------------------------------------------             
-            textTranslationResults = await textTranslationClient.TranslateTextBySyncModeAsync(classiiiUser, option, text);
-            Debug.Assert(textTranslationResults.Length == 1);
-            Debug.Assert(textTranslationResults[0].sourceText == "hello");
-            Debug.Assert(textTranslationResults[0].translatedText == "こんにちは");
-            // ユーザー辞書を確認 ----------------------------------------------------- end
 
             // ユーザー辞書を削除
             bRet = await userDictionaryClient.DeleteUserDictionaryItemAsync(classiiiUser, userDictionaryItems[0].id);

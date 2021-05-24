@@ -11,16 +11,27 @@ namespace TextTranslationDemo
     public class UserDictionaryClient
     {
         private string baseUrl;
+
+        private string jwtTokenRequestUrl;
+
+        private int defautDuration = 5 * 60;
         public UserDictionaryClient(string baseUrl)
         {
             this.baseUrl = baseUrl;
+            this.jwtTokenRequestUrl = this.baseUrl + "/token";
         }
         public async Task<UserDictionaryItem[]> GetUserDictionaryAsync(
             ClassiiiUser classiiiUser)
         {
             string url = baseUrl + "/dictionary";
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);            
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Get, url, headers, null);
 
@@ -42,7 +53,13 @@ namespace TextTranslationDemo
         {
             string url = baseUrl + "/dictionary";
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             Dictionary<string, object> body = new Dictionary<string, object>() {
                 { "fromLang", item.fromLang },
@@ -72,7 +89,13 @@ namespace TextTranslationDemo
         {
             string url = baseUrl + "/dictionary/"+ id;
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Delete, url, headers, null);
 
@@ -95,7 +118,13 @@ namespace TextTranslationDemo
         {
             string url = baseUrl + "/dictionary/" + id;
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             Dictionary<string, object> body = new Dictionary<string, object>() {
                 { "fromLang", item.fromLang },

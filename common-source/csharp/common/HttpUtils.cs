@@ -101,5 +101,34 @@ namespace common
                     { "signature", signature },
             };
         }
+
+        public static Dictionary<string, object> BuildJwtHeaders(string jwtToken)
+        {
+            return new Dictionary<string, object>{
+                    { "Authorization", $"Bearer {jwtToken}" },
+            };
+        }
+
+        public static async Task<string> GenerateJwtDataAsync(string accessKey, string secretKey, int secondsOfDuration, string url)
+        {
+            var body = new Dictionary<string, object>
+            {
+                { "accessKey", accessKey },
+                { "secretKey", secretKey },
+                { "duration", secondsOfDuration }
+            };
+            var content = await SendAsync(HttpMethod.Post, url, null, body);
+            var byteArray = await content.ReadAsByteArrayAsync();
+            var responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length);
+
+            var definition = new { status = "", data = new { encodedJWT = "" } };
+
+            var serverResp = JsonConvert.DeserializeAnonymousType(responseString, definition);
+
+            if (serverResp.status != "success")
+                throw new Exception("get user dictionary failed");
+
+            return serverResp.data.encodedJWT;
+        }
     }
 }
