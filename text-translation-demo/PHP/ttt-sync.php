@@ -25,7 +25,7 @@ function generate_signature(string $secret_key, string $nonce, string $path) {
 function translate_text() {
   $path = '/api/v1/translate';
   $full_url = BASE_URL . $path;
-  $nonce = time();
+  $nonce = round(microtime(true) * 1000);
   $signature = generate_signature(SECRET_KEY, $nonce, $path);
   $headers = array(
     'Content-Type: application/json',
