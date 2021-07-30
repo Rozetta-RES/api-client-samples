@@ -13,9 +13,9 @@ const { commandType, responseType } = require('./const');
 
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'en',
+  language: 'ur',
   samplingRate: 16000,
-  audioFile: 'en.wav'
+  audioFile: 'ur.wav'
 };
 
 const start = Date.now();
@@ -63,17 +63,19 @@ const handleSessionMessage = (connection, message) => {
     case responseType.samplingRateReady:
       // The language is set. Send the audio data stream.
       console.log('Sampling rate is set. Send audio data stream.');
-      fs.createReadStream(speechData.audioFile).on('data', (buf) => {
+      fs.createReadStream(speechData.audioFile)
+      .on('data', (buf) => {
         connection.send(buf, (error) => {
           if (error) {
             console.error(error.message);
           }
         });
-      }).on('end', () => 
+      })
+      .on('end', () => {
         connection.send(JSON.stringify({
           command: commandType.endStream,
-        }))
-      );
+        }));
+      });
       break;
     case responseType.recognitionResult:
       if (messageJSON.status === 'recognized') {
@@ -96,7 +98,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.io;
+  const env = envConfigs.signansStg;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;

@@ -7,6 +7,7 @@ const commandType = {
     setSamplingRate: 'SET_SAMPLING_RATE',
     endStream: 'END_STREAM',
     endSession: 'END_SESSION',
+    setPhraseList: 'SET_PHRASE_LIST',
 };
 
 /**
@@ -19,6 +20,8 @@ const responseType = {
     samplingRateError: 'SET_SAMPLING_RATE_ERROR',
     recognitionResult: 'RECOGNITION_RESULT',
     recognitionError: 'RECOGNITION_ERROR',
+    phraseListReady: 'PHRASE_LIST_READY',
+    phraseListError: 'PHRASE_LIST_ERROR',
 };
 
 module.exports = {

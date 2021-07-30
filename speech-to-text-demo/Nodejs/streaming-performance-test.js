@@ -10,18 +10,20 @@ const envConfigs = require('./account');
 const fetch = require('node-fetch');
 const { commandType, responseType } = require('./const');
 
+const env = envConfigs.signansHP;
 const apiPath = '/api/v1/translate/stt-streaming';
 const tokenPath = '/api/v1/token';
 const speechData = {
-    language: 'zh-CN',
+    language: 'en',
     samplingRate: 16000,
-    audioFile: 'zh_cn.wav',
-    //phraseList: ['星系文明', '3级文明']
-    phraseList: []
+    audioFile: 'en-meeting.wav'
 };
 
+const connections = new Map();
 const start = Date.now();
-
+const TEST_TARGET = 30;
+let stopAdd = false;
+let completeCount = 0;
 
 const getJwtToken = async (url, accessKey, secretKey) => {
     const data = {
@@ -40,7 +42,7 @@ const getJwtToken = async (url, accessKey, secretKey) => {
     return responseJSON.data.encodedJWT;
 }
 
-const handleSessionMessage = (connection, message) => {
+const handleSessionMessage = (connection, key, message) => {
     const messageJSON = JSON.parse(message);
     switch (messageJSON.type) {
         case responseType.languageReady:
@@ -56,31 +58,21 @@ const handleSessionMessage = (connection, message) => {
             console.error(messageJSON.value);
             break;
         case responseType.samplingRateReady:
-            connection.send(JSON.stringify({
-                command: commandType.setPhraseList,
-                value: speechData.phraseList,
-            }));
-            break;
-        case responseType.phraseListReady:
-        case responseType.phraseListError:
-            console.log('Phrase list is set. Send audio data stream.');
-            fs.createReadStream(speechData.audioFile, { highWaterMark: 8192 })
-                .on('data', (buf) => {
-                    //console.log(`Buffer length: ${buf.length}`);
-                    connection.send(buf, (error) => {
-                        if (error) {
-                            console.error(error.message);
-                        }
-                    });
-                }).on('end', () => {
-                    connection.send(JSON.stringify({
-                        command: commandType.endStream
-                    }));
+            // The language is set. Send the audio data stream.
+            console.log('Sampling rate is set. Send audio data stream.');
+            fs.createReadStream(speechData.audioFile).on('data', (buf) => {
+                connection.send(buf, (error) => {
+                    if (error) {
+                        console.error(error.message);
+                    }
                 });
+            }).on('end', () => connection.send(JSON.stringify({
+                command: commandType.endStream,
+            })));
             break;
         case responseType.recognitionResult:
             if (messageJSON.status === 'recognized') {
-                console.log(`${Date.now()}: ${messageJSON.value}`);
+                console.log(`${key}: ${new Date().toLocaleTimeString('ja-JP')}, ${messageJSON.value}`);
             }
             break;
         case responseType.recognitionError:
@@ -97,15 +89,14 @@ const handleSessionMessage = (connection, message) => {
     }
 };
 
-const main = async () => {
-    const env = envConfigs.local;
-    const { accessKey, secretKey } = env.authConfig;
-    const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
+const newConnection = async (tokenUrl, accessKey, secretKey) => {
     const token = await getJwtToken(tokenUrl, accessKey, secretKey);
     if (token) {
         const url = `${env.host}${apiPath}?token=Bearer ${token}`;
-        console.log(url);
         const connection = new WebSocket(url);
+        const key = Date.now();
+        connections.set(key, connection);
+        console.log(`Connection count: ${connections.size}`);
         connection.on('open', () => {
             console.log('Connected to streaming STT API.');
             // Once connected, set the speech language.
@@ -122,18 +113,33 @@ const main = async () => {
             }
         });
         connection.on('message', (message) => {
-            handleSessionMessage(connection, message);
+            handleSessionMessage(connection, key, message);
         });
         connection.on('error', (code, reason) => {
             console.error(`Error: ${code}, ${reason}`);
         });
         connection.on('close', (code, reason) => {
             console.log(`Connection closed: ${code}, ${reason}`);
+            connections.delete(key);
+            completeCount++;
+            console.log(`Connection count: ${connections.size}`);
         });
-    } else {
-        console.error('JwtToken error');
     }
 
+}
+
+const main = async () => {
+    const { accessKey, secretKey } = env.authConfig;
+    const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
+    await newConnection(tokenUrl, accessKey, secretKey);
+    setInterval(async () => {
+        if (connections.size < TEST_TARGET && !stopAdd) {
+            await newConnection(tokenUrl, accessKey, secretKey);
+        }
+        if (connections.size === TEST_TARGET) {
+            stopAdd = true;
+        }
+    }, 20 * 1000);
 };
 
 main();
