@@ -50,6 +50,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="HttpUtils.cs" />
     <Compile Include="RequestConstants.cs" />
     <Compile Include="Models\AuthData.cs" />
     <Compile Include="Models\RequestData.cs" />

@@ -11,9 +11,14 @@ namespace TextTranslationDemo
     class TextTranslationClient
     {
         private string baseUrl;
+
+        private string jwtTokenRequestUrl;
+
+        private int defautDuration = 5 * 60;
         public TextTranslationClient(string baseUrl)
         {
             this.baseUrl = baseUrl;
+            this.jwtTokenRequestUrl = this.baseUrl + "/token";
         }
         public async Task<TextTranslationResult[]> TranslateTextBySyncModeAsync(
             ClassiiiUser classiiiUser,
@@ -22,7 +27,13 @@ namespace TextTranslationDemo
         {
             string url=baseUrl +"/translate";
 
-            Dictionary<string, object> headers= HttpUtils.BuildHeaders(classiiiUser, url);
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
 
@@ -69,7 +80,13 @@ namespace TextTranslationDemo
         {
             string url = baseUrl + "/translate/async";
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
             Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
 
@@ -95,8 +112,14 @@ namespace TextTranslationDemo
         {
             string url = baseUrl + "/translate/async/"+ queueId;
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
-            
+            string jwtToken = await HttpUtils.GenerateJwtDataAsync(
+                classiiiUser.AccessKey,
+                classiiiUser.SecretKey,
+                this.defautDuration,
+                this.jwtTokenRequestUrl);
+
+            Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
+
             var content = await HttpUtils.SendAsync(HttpMethod.Get, url, headers, null);
 
             var byteArray = await content.ReadAsByteArrayAsync();
