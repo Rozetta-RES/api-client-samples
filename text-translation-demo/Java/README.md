@@ -1,6 +1,6 @@
 # Rozetta API java sample code
 
-シグナンスAPIのクライアントJavaサンプルコード。
+ロゼッタAPIのクライアントJavaサンプルコード。
 
 ## 要件
 
