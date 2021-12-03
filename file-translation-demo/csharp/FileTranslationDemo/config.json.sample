@@ -1,9 +1,5 @@
-{
-  "T4OO_ORG_ID": "",
-  "T4OO_USER_ID": "",
-  "T4OO_PASSWORD": "",
+{  
   "CLASSIII_ACCESS_KEY": "",
   "CLASSIII_SECRET_KEY": "",
-  "FILE_CONTRACT_ID": "",
-  "TEXT_CONTRACT_ID": ""
+  "FILE_CONTRACT_ID": ""
 }
