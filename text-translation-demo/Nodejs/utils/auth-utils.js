@@ -8,7 +8,7 @@ const signatureHMACEncoding = 'hex';
 
 const serverConfig = {
   protocol: 'https:',
-  hostname: 'translate.classiii.io',
+  hostname: 'translate.rozetta-api.io',
   port: 443
 };
 const authConfig = {
