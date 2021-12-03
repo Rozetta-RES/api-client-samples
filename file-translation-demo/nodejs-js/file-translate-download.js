@@ -54,7 +54,7 @@ const sendRequest = (serverConfig, authConfig, translateItemIds) => {
     .set({
       accessKey: authConfig.accessKey,
       signature,
-      nonce: authConfig.nonce,
+      nonce,
     }).end(function (req, resp) {
       if (resp.status === 200) {
         fs.createWriteStream('./output.zip').write(resp.body, (error) => {
