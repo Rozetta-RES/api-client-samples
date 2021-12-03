@@ -13,7 +13,8 @@ const serverConfig = {
 };
 const authConfig = {
   accessKey: 'ACCESS_KEY',
-  secretKey: 'SECRET_KEY'
+  secretKey: 'SECRET_KEY',
+  contractId: 'CONTRACT_ID',
 };
 
 /**
