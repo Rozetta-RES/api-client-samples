@@ -16,7 +16,7 @@ const tokenPath = '/api/v1/token';
 const speechData = {
     language: 'en',
     samplingRate: 16000,
-    audioFile: 'en-meeting.wav'
+    audioFile: 'en.wav'
 };
 
 const connections = new Map();

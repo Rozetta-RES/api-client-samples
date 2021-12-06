@@ -13,9 +13,9 @@ const { commandType, responseType } = require('./const');
 
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'ur',
+  language: 'en',
   samplingRate: 16000,
-  audioFile: 'ur.wav'
+  audioFile: 'en.wav'
 };
 
 const start = Date.now();
