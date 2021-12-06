@@ -9,7 +9,7 @@ const generateSignature = (path, secretKey, nonce) => {
     return hmac.digest(signatureHMACEncoding);
 };
 
-const path = '/api/vi/translate';
+const path = '/api/v1/translate';
 const secretKey = 'YOUR_SECRET_KEY';
 const signature = generateSignature(path, secretKey, Math.floor(Date.now() / 1000));
 console.log(signature);

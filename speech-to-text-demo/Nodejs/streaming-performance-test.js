@@ -10,13 +10,13 @@ const envConfigs = require('./account');
 const fetch = require('node-fetch');
 const { commandType, responseType } = require('./const');
 
-const env = envConfigs.signansHP;
+const env = envConfigs.exeEnv;
 const apiPath = '/api/v1/translate/stt-streaming';
 const tokenPath = '/api/v1/token';
 const speechData = {
     language: 'en',
     samplingRate: 16000,
-    audioFile: 'en-meeting.wav'
+    audioFile: 'en.wav'
 };
 
 const connections = new Map();
