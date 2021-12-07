@@ -6,7 +6,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClassiiiUser.cs" />
+    <Compile Remove="RozettaApiUser.cs" />
     <Compile Remove="ITranslationOption.cs" />
     <Compile Remove="RC4.cs" />
     <Compile Remove="ResponseStatus.cs" />

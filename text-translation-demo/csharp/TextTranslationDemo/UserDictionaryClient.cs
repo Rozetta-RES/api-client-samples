@@ -21,13 +21,13 @@ namespace TextTranslationDemo
             this.jwtTokenRequestUrl = this.baseUrl + "/token";
         }
         public async Task<UserDictionaryItem[]> GetUserDictionaryAsync(
-            ClassiiiUser classiiiUser)
+            RozettaApiUser rozettaApiUser)
         {
             string url = baseUrl + "/dictionary";
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 
@@ -49,13 +49,13 @@ namespace TextTranslationDemo
             return serverResp.data.entries;
         }
         public async Task<bool> AddUserDictionaryItemAsync(
-            ClassiiiUser classiiiUser, UserDictionaryItem item)
+            RozettaApiUser rozettaApiUser, UserDictionaryItem item)
         {
             string url = baseUrl + "/dictionary";
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 
@@ -85,13 +85,13 @@ namespace TextTranslationDemo
         }
 
         public async Task<bool> DeleteUserDictionaryItemAsync(
-            ClassiiiUser classiiiUser, int id)
+            RozettaApiUser rozettaApiUser, int id)
         {
             string url = baseUrl + "/dictionary/"+ id;
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 
@@ -114,13 +114,13 @@ namespace TextTranslationDemo
         }
 
         public async Task<bool> UpdateUserDictionaryItemAsync(
-            ClassiiiUser classiiiUser, int id, UserDictionaryItem item)
+            RozettaApiUser rozettaApiUser, int id, UserDictionaryItem item)
         {
             string url = baseUrl + "/dictionary/" + id;
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 

@@ -89,14 +89,14 @@ namespace common
 
             return response.Content;
         }
-        public static Dictionary<string, object> BuildHeaders(ClassiiiUser classiiiUser, string url)
+        public static Dictionary<string, object> BuildHeaders(RozettaApiUser rozettaApiUser, string url)
         {
             string apiPath = new Uri(url).PathAndQuery;
             string nonce = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString();
-            string signature = Utils.GetSignature(nonce, apiPath, classiiiUser.SecretKey);
+            string signature = Utils.GetSignature(nonce, apiPath, rozettaApiUser.SecretKey);
 
             return new Dictionary<string, object>{
-                    { "accessKey", classiiiUser.AccessKey },
+                    { "accessKey", rozettaApiUser.AccessKey },
                     { "nonce", nonce },
                     { "signature", signature },
             };
