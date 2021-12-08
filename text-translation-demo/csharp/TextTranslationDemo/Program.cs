@@ -8,7 +8,7 @@ namespace TextTranslationDemo
         static async System.Threading.Tasks.Task Main(string[] args)
         {            
             UserInfo.init("config.json");            
-            string baseUrl = "https://translate.rozetta-api.info/api/v1";
+            string baseUrl = "https://translate.rozetta-api.io/api/v1";
             RozettaApiUser rozettaApiUser = new RozettaApiUser {
                 AccessKey = UserInfo.ROZETTA_API_ACCESS_KEY,
                 SecretKey = UserInfo.ROZETTA_API_SECRET_KEY,

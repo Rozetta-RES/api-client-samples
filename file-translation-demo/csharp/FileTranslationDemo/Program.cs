@@ -9,7 +9,7 @@ namespace FileTranslationDemo
         static async System.Threading.Tasks.Task Main(string[] args)
         {
             UserInfo.init("config.json");
-            FileTranslateFlow flow = new FileTranslateFlow("https://translate.rozetta-api.info/api/v1");
+            FileTranslateFlow flow = new FileTranslateFlow("https://translate.rozetta-api.io/api/v1");
             string[] files = { @"C:\mydocuments\morning.docx" };
             string[] langs = { "en" };
             int fieldId = 1;

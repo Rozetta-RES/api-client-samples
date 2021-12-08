@@ -20,7 +20,7 @@ import * as  FormData from "form-data"
 
 export class TranslateClient {
     private readonly http: AxiosInstance;
-    private baseUrl:string="https://translate.rozetta-api.info/api/v1";
+    private baseUrl:string="https://translate.rozetta-api.io/api/v1";
     constructor() {
         this.http = axios.create({
             baseURL: this.baseUrl,

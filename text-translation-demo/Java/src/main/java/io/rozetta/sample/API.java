@@ -1,7 +1,7 @@
 package io.rozetta.sample;
 
 final class API {
-  public static final String BASE_URL = "https://translate.classiii.io";
+  public static final String BASE_URL = "https://translate.rozetta-api.io";
 
   /**
    * Signans API connection timeout (30 seconds).

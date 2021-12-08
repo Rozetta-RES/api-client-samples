@@ -8,7 +8,7 @@ Namespace TextTranslationDemo
         End Sub
         Private Async Function MainAsync() As Task
             UserInfo.init("config.json")
-            Dim baseUrl As String = "https://translate.rozetta-api.info/api/v1"
+            Dim baseUrl As String = "https://translate.rozetta-api.io/api/v1"
             Dim rozettaApiUser As RozettaApiUser = New RozettaApiUser With {
                 .AccessKey = UserInfo.ROZETTA_API_ACCESS_KEY,
                 .SecretKey = UserInfo.ROZETTA_API_SECRET_KEY,

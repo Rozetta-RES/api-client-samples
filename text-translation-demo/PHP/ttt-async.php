@@ -7,7 +7,7 @@
 const ACCESS_KEY = 'YOUR_ACCESS_KEY';
 const SECRET_KEY = 'YOUR_SECRET_KEY';
 const SIGNATURE_HMAC_ALGO = 'sha256';
-const BASE_URL = 'https://translate.classiii.info';
+const BASE_URL = 'https://translate.rozetta-api.io';
 
 /**
  * Generates authentication signature.

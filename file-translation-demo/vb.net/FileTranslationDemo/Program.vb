@@ -10,7 +10,7 @@ Namespace TextTranslationDemo
 
         Public Async Function MainAsync() As Task
             UserInfo.init("config.json")
-            Dim flow As FileTranslateFlow = New FileTranslateFlow("https://translate.rozetta-api.info/api/v1")
+            Dim flow As FileTranslateFlow = New FileTranslateFlow("https://translate.rozetta-api.io/api/v1")
             Dim files As String() = {"C:\mydocuments\テスト.docx"}
             Dim langs As String() = {"ja"}
             Dim fieldId As Integer = 1
