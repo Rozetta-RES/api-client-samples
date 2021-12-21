@@ -2,21 +2,7 @@
 
 ## 1 ファイル翻訳APIの仕様
 [ファイル翻訳API（Swagger）](https://app.swaggerhub.com/apis-docs/classiii/file-translate/1.0.0-oas3)
-## 2 T4OOユーザーの場合
-### <a name="authcode"></a>&nbsp;&nbsp;1) . authcodeを取得する
-&nbsp;&nbsp;&nbsp;&nbsp;
-T4OOのorgId，userIdを使って、ファイル翻訳API(/auth-code)からauthcodeを取得します。
-### &nbsp;&nbsp;2) . T4OO認証を行い、Rozetta APIユーザーを作成する
-&nbsp;&nbsp;&nbsp;&nbsp;
-サーバ側から[authcode](#authcode)を使って、T4OOのパスワードを暗号化します。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;
-T4OOのorgId、userId、暗号化のパスワードを使って、ファイル翻訳API(/authenticate)でT4OOの認証を行います。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;
-認証成功した後、Rozetta APIユーザー情報（AccessKey, SecretKey）を入手します。<br/>
-&nbsp;&nbsp;&nbsp;&nbsp;
-その後は、Rozetta APIユーザーと同じ下記のような流れです。
-
-## 3 Rozetta APIユーザーの場合
+## 2 Rozetta APIユーザーの場合
 ### &nbsp;&nbsp;1) . ファイルをアップロードする
 &nbsp;&nbsp;&nbsp;&nbsp;
 複数のファイルを一度にアップロードすることが可能です。<br/>
@@ -29,7 +15,7 @@ nonce: nonce<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
 signature: signature<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
-[各項目の説明はこちら](https://translate.classiii.io/doc/ja/authentication)<br/>
+[各項目の説明はこちら](https://translate.rozetta-api.io/doc/ja/authentication)<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;
 アップロードの時、HTTP bodyに必要な項目は下記のようにしてください。<br/>
 &nbsp;&nbsp;&nbsp;&nbsp;

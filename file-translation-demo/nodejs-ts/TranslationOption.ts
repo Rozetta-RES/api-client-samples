@@ -5,4 +5,5 @@ export default interface TranslationOption {
     signature: string;
     langs: string[];
     fieldId: number;
+    contractId: string;
 }

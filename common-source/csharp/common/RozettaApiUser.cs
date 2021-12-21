@@ -1,6 +1,6 @@
 ﻿namespace common
 {
-    public class ClassiiiUser
+    public class RozettaApiUser
     {
         public string AccessKey { get; set; }
         public string SecretKey { get; set; }

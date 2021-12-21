@@ -7,7 +7,7 @@ const authUtils = require('./utils/auth-utils');
 
 const url = '/api/v1/file-translate';
 
-const sendRequest = async (serverConfig, accessKey, secretKey) => {
+const sendRequest = async (serverConfig, accessKey, secretKey,contractId) => {
   const nonce = new Date().getTime().toString();
   const signature = authUtils.generateSignature(
     url,
@@ -28,6 +28,7 @@ const sendRequest = async (serverConfig, accessKey, secretKey) => {
     )), 'testfile.docx')
     .field('targetLangs', JSON.stringify(langs))
     .field('fieldId', '1')
+    .field('contractId', contractId)
     .end((_, resp) => {
       console.log(resp.text);
     });
@@ -39,6 +40,7 @@ const main = async () => {
       config.serverConfig,
       config.authConfig.accessKey,
       config.authConfig.secretKey,
+      config.authConfig.contractId,
     );
   } catch (error) {
     console.error(error);

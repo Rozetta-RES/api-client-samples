@@ -10,7 +10,7 @@ const envConfigs = require('./account');
 const fetch = require('node-fetch');
 const { commandType, responseType } = require('./const');
 
-const env = envConfigs.signansStg;
+const env = envConfigs.exeEnv;
 const apiPath = '/api/v1/translate/stt-streaming';
 const tokenPath = '/api/v1/token';
 const speechData = {

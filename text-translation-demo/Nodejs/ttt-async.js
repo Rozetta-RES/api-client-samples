@@ -10,7 +10,7 @@ const translationData = {
   ],
   sourceLang: 'en',
   targetLang: 'ja',
-  type: 't4oo'
+  contractId: authConfig.contractId,
 };
 
 /**

@@ -11,9 +11,9 @@ Namespace TextTranslationDemo
             Me.baseUrl = baseUrl
         End Sub
 
-        Public Async Function GetUserDictionaryAsync(ByVal classiiiUser As ClassiiiUser) As Task(Of UserDictionaryItem())
+        Public Async Function GetUserDictionaryAsync(ByVal rozettaApiUser As RozettaApiUser) As Task(Of UserDictionaryItem())
             Dim url As String = baseUrl & "/dictionary"
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
             Dim content = Await HttpUtils.SendAsync(HttpMethod.Get, url, headers, Nothing)
             Dim byteArray = Await content.ReadAsByteArrayAsync()
             Dim responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length)
@@ -28,9 +28,9 @@ Namespace TextTranslationDemo
             Return serverResp.data.entries
         End Function
 
-        Public Async Function AddUserDictionaryItemAsync(ByVal classiiiUser As ClassiiiUser, ByVal item As UserDictionaryItem) As Task(Of Boolean)
+        Public Async Function AddUserDictionaryItemAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal item As UserDictionaryItem) As Task(Of Boolean)
             Dim url As String = baseUrl & "/dictionary"
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
             Dim body As Dictionary(Of String, Object) = New Dictionary(Of String, Object)() From {
                 {"fromLang", item.fromLang},
                 {"fromText", item.fromText},
@@ -48,9 +48,9 @@ Namespace TextTranslationDemo
             Return True
         End Function
 
-        Public Async Function DeleteUserDictionaryItemAsync(ByVal classiiiUser As ClassiiiUser, ByVal id As Integer) As Task(Of Boolean)
+        Public Async Function DeleteUserDictionaryItemAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal id As Integer) As Task(Of Boolean)
             Dim url As String = baseUrl & "/dictionary/" & id
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
             Dim content = Await HttpUtils.SendAsync(HttpMethod.Delete, url, headers, Nothing)
             Dim byteArray = Await content.ReadAsByteArrayAsync()
             Dim responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length)
@@ -62,9 +62,9 @@ Namespace TextTranslationDemo
             Return True
         End Function
 
-        Public Async Function UpdateUserDictionaryItemAsync(ByVal classiiiUser As ClassiiiUser, ByVal id As Integer, ByVal item As UserDictionaryItem) As Task(Of Boolean)
+        Public Async Function UpdateUserDictionaryItemAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal id As Integer, ByVal item As UserDictionaryItem) As Task(Of Boolean)
             Dim url As String = baseUrl & "/dictionary/" & id
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
             Dim body As Dictionary(Of String, Object) = New Dictionary(Of String, Object)() From {
                 {"fromLang", item.fromLang},
                 {"fromText", item.fromText},

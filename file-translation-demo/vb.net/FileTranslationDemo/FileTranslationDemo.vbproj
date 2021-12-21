@@ -10,7 +10,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Compile Remove="ClassiiiUser.vb" />
+    <Compile Remove="RozettaApiUser.vb" />
     <Compile Remove="ITranslationOption.vb" />
     <Compile Remove="RC4.vb" />
     <Compile Remove="ResponseStatus.vb" />

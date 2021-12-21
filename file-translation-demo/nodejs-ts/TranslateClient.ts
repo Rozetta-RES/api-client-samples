@@ -12,7 +12,7 @@ import {v4} from "uuid"
 // @ts-ignore
 import * as AdmZip from "adm-zip"
 import {ensureDirSync, outputFileSync} from "fs-extra";
-import ClassiiiUserInfo from "./ClassiiiUserInfo";
+import RozettaApiUserInfo from "./RozettaApiUserInfo";
 // @ts-ignore
 import * as RC4 from "rc4.js";
 import * as  FormData from "form-data"
@@ -20,45 +20,12 @@ import * as  FormData from "form-data"
 
 export class TranslateClient {
     private readonly http: AxiosInstance;
-    private baseUrl:string="https://test.classiii.io/api/v1";
+    private baseUrl:string="https://translate.rozetta-api.io/api/v1";
     constructor() {
         this.http = axios.create({
             baseURL: this.baseUrl,
         });
     }
-    public async getAuthCode(orgId:string, userId:string, url:string):Promise<string>{
-        const params = {
-            orgId: orgId,
-            userId: userId,
-        };
-
-        const timeoutSeconds: number = 60;
-        const  {data} = await this.post(url, params, timeoutSeconds);
-        if(data.status!="success"){
-            throw new Error('server error');
-        }
-
-        return data.data.id;
-    }
-    public async authenticate(orgId:string, userId:string, password:string, authCode:string, url:string):Promise<ClassiiiUserInfo>{
-        const params = {
-            orgId: orgId,
-            userId: userId,
-            password:password
-        };
-        let rc4=new RC4(authCode);
-        let encryptedPasswd = rc4.encrypt(params.password);
-        params.password = encryptedPasswd;
-
-        const timeoutSeconds: number = 60;
-        const  {data} = await this.post(url, params, timeoutSeconds);
-        if(data.status!="success"){
-            throw new Error('server error');
-        }
-
-        return data.data;
-    }
-
     public getSignature(nonce:string, path:string, secretKey:string):string{
         return CryptoJS.HmacSHA256(nonce+path, secretKey).toString(CryptoJS.enc.Hex);
     }
@@ -70,6 +37,7 @@ export class TranslateClient {
         let bodyFormData = new FormData();
         bodyFormData.append('fieldId', option.fieldId);
         bodyFormData.append('targetLangs', JSON.stringify(option.langs));
+        bodyFormData.append('contractId', option.contractId);
         for(let i=0;i<files.length;i++){
             bodyFormData.append(`files`, createReadStream(files[i]));
         }

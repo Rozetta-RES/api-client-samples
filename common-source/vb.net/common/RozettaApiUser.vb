@@ -1,5 +1,5 @@
 ﻿Namespace common
-    Public Class ClassiiiUser
+    Public Class RozettaApiUser
         Public Property AccessKey As String
         Public Property SecretKey As String
 

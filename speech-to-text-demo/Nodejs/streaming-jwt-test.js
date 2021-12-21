@@ -114,7 +114,7 @@ const readAndSendAudioFile = (connection) => {
 }
 
 const main = async () => {
-    const env = envConfigs.signans;
+    const env = envConfigs.exeEnv;
     const { accessKey, secretKey } = env.authConfig;
     const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
     const token = await getJwtToken(tokenUrl, accessKey, secretKey);

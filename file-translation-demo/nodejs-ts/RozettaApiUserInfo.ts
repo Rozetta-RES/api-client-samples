@@ -1,4 +1,4 @@
-export default interface ClassiiiUserInfo {
+export default interface RozettaApiUserInfo {
     accessKey:string;
     secretKey:string;
 }

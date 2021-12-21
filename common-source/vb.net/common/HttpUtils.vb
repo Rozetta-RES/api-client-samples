@@ -70,12 +70,12 @@ Namespace common
             Return response.Content
         End Function
 
-        Public Shared Function BuildHeaders(ByVal classiiiUser As ClassiiiUser, ByVal url As String) As Dictionary(Of String, Object)
+        Public Shared Function BuildHeaders(ByVal rozettaApiUser As RozettaApiUser, ByVal url As String) As Dictionary(Of String, Object)
             Dim apiPath As String = New Uri(url).PathAndQuery
             Dim nonce As String = DateTimeOffset.Now.ToUnixTimeMilliseconds().ToString()
-            Dim signature As String = Utils.GetSignature(nonce, apiPath, classiiiUser.SecretKey)
+            Dim signature As String = Utils.GetSignature(nonce, apiPath, rozettaApiUser.SecretKey)
             Return New Dictionary(Of String, Object) From {
-                {"accessKey", classiiiUser.AccessKey},
+                {"accessKey", rozettaApiUser.AccessKey},
                 {"nonce", nonce},
                 {"signature", signature}
             }

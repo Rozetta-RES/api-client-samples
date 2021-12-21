@@ -21,21 +21,21 @@ namespace TextTranslationDemo
             this.jwtTokenRequestUrl = this.baseUrl + "/token";
         }
         public async Task<TextTranslationResult[]> TranslateTextBySyncModeAsync(
-            ClassiiiUser classiiiUser,
+            RozettaApiUser rozettaApiUser,
             TextTranslationOption option,
             string[] text)
         {
             string url=baseUrl +"/translate";
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 
             Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
-            Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
+            Dictionary<string, object> body = BuildBody(option, rozettaApiUser.ContractId, text);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body);
 
@@ -74,21 +74,21 @@ namespace TextTranslationDemo
 
 
         public async Task<string> TranslateTextByAsyncModeAsync(
-            ClassiiiUser classiiiUser,
+            RozettaApiUser rozettaApiUser,
             TextTranslationOption option,
             string[] text)
         {
             string url = baseUrl + "/translate/async";
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 
             Dictionary<string, object> headers = HttpUtils.BuildJwtHeaders(jwtToken);
 
-            Dictionary<string, object> body = BuildBody(option, classiiiUser.ContractId, text);
+            Dictionary<string, object> body = BuildBody(option, rozettaApiUser.ContractId, text);
 
             var content = await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body);
 
@@ -107,14 +107,14 @@ namespace TextTranslationDemo
         }
 
         public async Task<TextTranslationResult[]> GetTranslationResultAsync(
-            ClassiiiUser classiiiUser,            
+            RozettaApiUser rozettaApiUser,            
             string queueId)
         {
             string url = baseUrl + "/translate/async/"+ queueId;
 
             string jwtToken = await HttpUtils.GenerateJwtDataAsync(
-                classiiiUser.AccessKey,
-                classiiiUser.SecretKey,
+                rozettaApiUser.AccessKey,
+                rozettaApiUser.SecretKey,
                 this.defautDuration,
                 this.jwtTokenRequestUrl);
 

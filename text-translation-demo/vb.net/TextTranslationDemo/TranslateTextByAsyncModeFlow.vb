@@ -6,7 +6,7 @@ Namespace TextTranslationDemo
     Public Class TranslateTextByAsyncModeFlow
         Private client As TextTranslationClient
         Private aTimer As Timers.Timer = Nothing
-        Private classiiiUser As ClassiiiUser
+        Private rozettaApiUser As RozettaApiUser
         Private queueId As String
         Private done As Boolean = False
         Private Const Interval As Integer = 10000
@@ -16,9 +16,9 @@ Namespace TextTranslationDemo
             client = New TextTranslationClient(baseUrl)
         End Sub
 
-        Public Async Function TranslateFlowAsync(ByVal classiiiUser As ClassiiiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of TextTranslationResult())
-            Me.classiiiUser = classiiiUser
-            queueId = Await client.TranslateTextByAsyncModeAsync(classiiiUser, [option], text)
+        Public Async Function TranslateFlowAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of TextTranslationResult())
+            Me.rozettaApiUser = rozettaApiUser
+            queueId = Await client.TranslateTextByAsyncModeAsync(rozettaApiUser, [option], text)
             If aTimer IsNot Nothing Then StopTimer(aTimer)
             aTimer = New Timers.Timer()
             aTimer.Interval = Interval
@@ -35,7 +35,7 @@ Namespace TextTranslationDemo
 
         Private Sub OnTimedEvent(ByVal source As Object, ByVal e As ElapsedEventArgs)
             ' waiting translation done
-            Dim task As Task(Of TextTranslationResult()) = client.GetTranslationResultAsync(classiiiUser, queueId)
+            Dim task As Task(Of TextTranslationResult()) = client.GetTranslationResultAsync(rozettaApiUser, queueId)
             task.Wait(Interval)
 
             If task.Result.Length > 0 Then

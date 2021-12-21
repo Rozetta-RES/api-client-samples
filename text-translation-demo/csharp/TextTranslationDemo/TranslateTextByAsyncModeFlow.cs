@@ -11,7 +11,7 @@ namespace TextTranslationDemo
     {
         private TextTranslationClient client;
         private System.Timers.Timer aTimer = null;
-        private ClassiiiUser classiiiUser;
+        private RozettaApiUser rozettaApiUser;
         private string queueId;
         private bool done = false;
         private const int Interval = 10000;
@@ -21,11 +21,11 @@ namespace TextTranslationDemo
             client = new TextTranslationClient(baseUrl);
         }
 
-        public async Task<TextTranslationResult[]> TranslateFlowAsync(ClassiiiUser classiiiUser, TextTranslationOption option, string[] text)
+        public async Task<TextTranslationResult[]> TranslateFlowAsync(RozettaApiUser rozettaApiUser, TextTranslationOption option, string[] text)
         {
-            this.classiiiUser = classiiiUser;            
+            this.rozettaApiUser = rozettaApiUser;            
 
-            this.queueId = await client.TranslateTextByAsyncModeAsync(classiiiUser, option,text);
+            this.queueId = await client.TranslateTextByAsyncModeAsync(rozettaApiUser, option,text);
 
             if (aTimer != null)
                 StopTimer(aTimer);
@@ -51,7 +51,7 @@ namespace TextTranslationDemo
         private void OnTimedEvent(Object source, ElapsedEventArgs e)
         {
             // waiting translation done
-            Task<TextTranslationResult[]> task = client.GetTranslationResultAsync(classiiiUser, queueId);
+            Task<TextTranslationResult[]> task = client.GetTranslationResultAsync(rozettaApiUser, queueId);
 
             task.Wait(Interval);
 

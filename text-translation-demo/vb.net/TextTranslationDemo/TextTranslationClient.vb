@@ -11,10 +11,10 @@ Namespace TextTranslationDemo
             Me.baseUrl = baseUrl
         End Sub
 
-        Public Async Function TranslateTextBySyncModeAsync(ByVal classiiiUser As ClassiiiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of TextTranslationResult())
+        Public Async Function TranslateTextBySyncModeAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of TextTranslationResult())
             Dim url As String = baseUrl & "/translate"
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
-            Dim body As Dictionary(Of String, Object) = BuildBody([option], classiiiUser.TextContractId, text)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
+            Dim body As Dictionary(Of String, Object) = BuildBody([option], rozettaApiUser.TextContractId, text)
             Dim content = Await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body)
             Dim byteArray = Await content.ReadAsByteArrayAsync()
             Dim responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length)
@@ -43,10 +43,10 @@ Namespace TextTranslationDemo
             Return body
         End Function
 
-        Public Async Function TranslateTextByAsyncModeAsync(ByVal classiiiUser As ClassiiiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of String)
+        Public Async Function TranslateTextByAsyncModeAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal [option] As TextTranslationOption, ByVal text As String()) As Task(Of String)
             Dim url As String = baseUrl & "/translate/async"
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
-            Dim body As Dictionary(Of String, Object) = BuildBody([option], classiiiUser.TextContractId, text)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
+            Dim body As Dictionary(Of String, Object) = BuildBody([option], rozettaApiUser.TextContractId, text)
             Dim content = Await HttpUtils.SendAsync(HttpMethod.Post, url, headers, body)
             Dim byteArray = Await content.ReadAsByteArrayAsync()
             Dim responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length)
@@ -61,9 +61,9 @@ Namespace TextTranslationDemo
             Return serverResp.data.queueId
         End Function
 
-        Public Async Function GetTranslationResultAsync(ByVal classiiiUser As ClassiiiUser, ByVal queueId As String) As Task(Of TextTranslationResult())
+        Public Async Function GetTranslationResultAsync(ByVal rozettaApiUser As RozettaApiUser, ByVal queueId As String) As Task(Of TextTranslationResult())
             Dim url As String = baseUrl & "/translate/async/" & queueId
-            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(classiiiUser, url)
+            Dim headers As Dictionary(Of String, Object) = HttpUtils.BuildHeaders(rozettaApiUser, url)
             Dim content = Await HttpUtils.SendAsync(HttpMethod.Get, url, headers, Nothing)
             Dim byteArray = Await content.ReadAsByteArrayAsync()
             Dim responseString = Encoding.UTF8.GetString(byteArray, 0, byteArray.Length)

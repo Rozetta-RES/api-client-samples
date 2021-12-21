@@ -13,9 +13,9 @@ const { commandType, responseType } = require('./const');
 
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'ur',
+  language: 'en',
   samplingRate: 16000,
-  audioFile: 'ur.wav'
+  audioFile: 'en.wav'
 };
 
 const start = Date.now();
@@ -98,7 +98,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.local;
+  const env = envConfigs.exeEnv;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;

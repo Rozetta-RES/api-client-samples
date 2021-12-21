@@ -1,4 +1,5 @@
 import {ApiFlow} from "./ApiFlow";
-
-let flow = new ApiFlow();
-flow.main();
+(async () => {
+  let flow = new ApiFlow();
+  await flow.main();
+})();
