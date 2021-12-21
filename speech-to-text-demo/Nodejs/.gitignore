@@ -11,3 +11,4 @@ server/*/coverage
 public
 .idea
 *.log
+*.wav

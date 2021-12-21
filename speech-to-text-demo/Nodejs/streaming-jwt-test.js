@@ -13,14 +13,14 @@ const { commandType, responseType } = require('./const');
 const apiPath = '/api/v1/translate/stt-streaming';
 const tokenPath = '/api/v1/token';
 const speechData = {
-    language: 'zh-CN',
+    language: 'ja',
     samplingRate: 16000,
-    audioFile: 'zh_cn.wav',
+    audioFile: 'ja_jp.wav',
     //phraseList: ['星系文明', '3级文明']
-    phraseList: []
+    //phraseList: []
 };
 
-const start = Date.now();
+let pre = Date.now();
 
 
 const getJwtToken = async (url, accessKey, secretKey) => {
@@ -45,7 +45,7 @@ const handleSessionMessage = (connection, message) => {
     switch (messageJSON.type) {
         case responseType.languageReady:
             // The language is set. Set the sampling rate.
-            console.log('Language is set. Set sampling rate.');
+            console.log('Language is set. Setting sampling rate.');
             connection.send(JSON.stringify({
                 command: commandType.setSamplingRate,
                 value: speechData.samplingRate,
@@ -56,31 +56,29 @@ const handleSessionMessage = (connection, message) => {
             console.error(messageJSON.value);
             break;
         case responseType.samplingRateReady:
-            connection.send(JSON.stringify({
-                command: commandType.setPhraseList,
-                value: speechData.phraseList,
-            }));
+            console.log('Sample rate send suucess');
+            if (speechData.phraseList) {
+                console.log('Set phrase list', speechData.phraseList);
+                connection.send(JSON.stringify({
+                    command: commandType.setPhraseList,
+                    value: speechData.phraseList,
+                }));
+
+            } else {
+                console.log('Sending audio data...');
+                readAndSendAudioFile(connection);
+            }
             break;
         case responseType.phraseListReady:
         case responseType.phraseListError:
             console.log('Phrase list is set. Send audio data stream.');
-            fs.createReadStream(speechData.audioFile, { highWaterMark: 8192 })
-                .on('data', (buf) => {
-                    //console.log(`Buffer length: ${buf.length}`);
-                    connection.send(buf, (error) => {
-                        if (error) {
-                            console.error(error.message);
-                        }
-                    });
-                }).on('end', () => {
-                    connection.send(JSON.stringify({
-                        command: commandType.endStream
-                    }));
-                });
+            readAndSendAudioFile(connection);
             break;
         case responseType.recognitionResult:
             if (messageJSON.status === 'recognized') {
-                console.log(`${Date.now()}: ${messageJSON.value}`);
+                const current = Date.now();
+                console.log(`${(current - pre) / 1000}:${messageJSON.value}`);
+                pre = current;
             }
             break;
         case responseType.recognitionError:
@@ -97,8 +95,26 @@ const handleSessionMessage = (connection, message) => {
     }
 };
 
+
+const readAndSendAudioFile = (connection) => {
+    fs.createReadStream(speechData.audioFile, { highWaterMark: 8192 })
+        .on('data', (buf) => {
+            //console.log(`Buffer length: ${buf.length}`);
+            connection.send(buf, (error) => {
+                if (error) {
+                    console.error(error.message);
+                }
+            });
+        }).on('end', () => {
+            console.log('Audio data read finished');
+            connection.send(JSON.stringify({
+                command: commandType.endStream
+            }));
+        });
+}
+
 const main = async () => {
-    const env = envConfigs.local;
+    const env = envConfigs.signans;
     const { accessKey, secretKey } = env.authConfig;
     const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
     const token = await getJwtToken(tokenUrl, accessKey, secretKey);
@@ -109,17 +125,10 @@ const main = async () => {
         connection.on('open', () => {
             console.log('Connected to streaming STT API.');
             // Once connected, set the speech language.
-            if (speechData.language) {
-                connection.send(JSON.stringify({
-                    command: commandType.setLanguage,
-                    value: speechData.language,
-                }));
-            } else {
-                connection.send(JSON.stringify({
-                    command: commandType.setSamplingRate,
-                    value: speechData.samplingRate,
-                }));
-            }
+            connection.send(JSON.stringify({
+                command: commandType.setLanguage,
+                value: speechData.language,
+            }));
         });
         connection.on('message', (message) => {
             handleSessionMessage(connection, message);

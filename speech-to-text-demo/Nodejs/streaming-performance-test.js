@@ -10,13 +10,13 @@ const envConfigs = require('./account');
 const fetch = require('node-fetch');
 const { commandType, responseType } = require('./const');
 
-const env = envConfigs.signansHP;
+const env = envConfigs.signansStg;
 const apiPath = '/api/v1/translate/stt-streaming';
 const tokenPath = '/api/v1/token';
 const speechData = {
-    language: 'en',
+    language: 'ja',
     samplingRate: 16000,
-    audioFile: 'en-meeting.wav'
+    audioFile: 'ja_jp.wav'
 };
 
 const connections = new Map();
@@ -24,6 +24,8 @@ const start = Date.now();
 const TEST_TARGET = 30;
 let stopAdd = false;
 let completeCount = 0;
+
+let nextTimer = null;
 
 const getJwtToken = async (url, accessKey, secretKey) => {
     const data = {
@@ -126,20 +128,23 @@ const newConnection = async (tokenUrl, accessKey, secretKey) => {
         });
     }
 
+    
+    if (connections.size < TEST_TARGET && !stopAdd) {
+        clearTimeout(nextTimer);
+        nextTimer = setTimeout(async () => {
+            await newConnection(tokenUrl, accessKey, secretKey);
+        }, Math.random() * 1000);
+    }
+    if (connections.size === TEST_TARGET) {
+        stopAdd = true;
+    }
+    
 }
 
 const main = async () => {
     const { accessKey, secretKey } = env.authConfig;
     const tokenUrl = `${env.host.replace('ws', 'http')}${tokenPath}`;
     await newConnection(tokenUrl, accessKey, secretKey);
-    setInterval(async () => {
-        if (connections.size < TEST_TARGET && !stopAdd) {
-            await newConnection(tokenUrl, accessKey, secretKey);
-        }
-        if (connections.size === TEST_TARGET) {
-            stopAdd = true;
-        }
-    }, 20 * 1000);
 };
 
 main();

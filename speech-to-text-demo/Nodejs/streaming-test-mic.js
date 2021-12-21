@@ -7,7 +7,7 @@ const {commandType, responseType} = require('./const');
 const envConfigs = require('./account');
 const apiPath = '/api/v1/translate/stt-streaming';
 const speechData = {
-  language: 'ja',
+  language: 'zh-CN',
   samplingRate: 16000,
 };
 
@@ -62,7 +62,7 @@ const handleSessionMessage = (connection, message) => {
         .on('end', () => {
           console.log('Recorder end');
           connection.send(JSON.stringify({
-            command: commandType.endSession,
+            command: commandType.endStream,
           }));
         });
       break;
@@ -85,7 +85,7 @@ const handleSessionMessage = (connection, message) => {
 };
 
 const main = async () => {
-  const env = envConfigs.local;
+  const env = envConfigs.signansStg;
   const auth = getAuth(env.authConfig, apiPath);
   const auth64 = btoa(JSON.stringify(auth));
   const url = `${env.host}${apiPath}?auth=${auth64}`;
