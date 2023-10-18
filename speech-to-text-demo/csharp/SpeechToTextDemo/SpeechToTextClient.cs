@@ -16,13 +16,13 @@ namespace SpeechToTextDemo
             this.baseUrl = baseUrl;
         }
         public async Task<string> SpeechToTextAsync(
-            ClassiiiUser classiiiUser,
+            RozettaApiUser user,
             string sourceLang,
             string filePath)
         {
             string url = baseUrl + "/translate/stt";
 
-            Dictionary<string, object> headers = HttpUtils.BuildHeaders(classiiiUser, url);
+            Dictionary<string, object> headers = HttpUtils.BuildHeaders(user, url);
 
             Dictionary<string, string> body = new Dictionary<string, string>();
             body.Add("sourceLang", sourceLang);

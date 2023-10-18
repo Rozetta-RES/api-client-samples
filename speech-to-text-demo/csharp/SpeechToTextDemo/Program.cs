@@ -10,19 +10,19 @@ namespace SpeechToTextDemo
         {
             UserInfo.init("config.json");
 
-            string baseUrl = "https://translate.classiii.info/api/v1";            
+            string baseUrl = "https://translate.rozetta-api.io/api/v1";
 
-            ClassiiiUser classiiiUser = new ClassiiiUser { AccessKey = UserInfo.CLASSIII_ACCESS_KEY, SecretKey = UserInfo.CLASSIII_SECRET_KEY };
+            RozettaApiUser user = new RozettaApiUser { AccessKey = UserInfo.ROZETTA_API_ACCESS_KEY, SecretKey = UserInfo.ROZETTA_API_SECRET_KEY };
             
             // 音声認識を試す
-            await TestSpeechToText(baseUrl, classiiiUser);
+            await TestSpeechToText(baseUrl, user);
         }
 
-        private static async System.Threading.Tasks.Task TestSpeechToText(string baseUrl, ClassiiiUser classiiiUser)
+        private static async System.Threading.Tasks.Task TestSpeechToText(string baseUrl, RozettaApiUser user)
         {
             SpeechToTextClient textTranslationClient = new SpeechToTextClient(baseUrl);
             //  音声認識
-            string result = await textTranslationClient.SpeechToTextAsync(classiiiUser, "ja", "../../../0001_near.wav");
+            string result = await textTranslationClient.SpeechToTextAsync(user, "ja", "../../../0001_near.wav");
             
             Debug.Assert(result== "そこに着いたらもう一度誰かに尋ねてください");
         }

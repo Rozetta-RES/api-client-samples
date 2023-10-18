@@ -35,7 +35,7 @@ namespace TextTranslationDemo
 
             Debug.Assert(ret.Length == 1);
             Debug.Assert(ret[0].sourceText == "hello"); 
-            Debug.Assert(ret[0].translatedText == "こんにちは");
+            Debug.Assert(ret[0].translatedText == "挨拶");
 
             //  非同期テキスト翻訳
             TranslateTextByAsyncModeFlow flow = new TranslateTextByAsyncModeFlow(baseUrl);
@@ -43,7 +43,7 @@ namespace TextTranslationDemo
 
             Debug.Assert(ret.Length == 1);
             Debug.Assert(ret[0].sourceText == "hello");
-            Debug.Assert(ret[0].translatedText == "こんにちは");
+            Debug.Assert(ret[0].translatedText == "挨拶");
         }
         private static async System.Threading.Tasks.Task TestUserDictionary(string baseUrl, RozettaApiUser rozettaApiUser)
         {

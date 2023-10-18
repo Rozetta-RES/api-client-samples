@@ -32,7 +32,7 @@ Namespace TextTranslationDemo
             Dim ret As TextTranslationResult() = Await textTranslationClient.TranslateTextBySyncModeAsync(rozettaApiUser, [option], text)
             Debug.Assert(ret.Length = 1)
             Debug.Assert(Equals(ret(0).sourceText, "hello"))
-            Debug.Assert(Equals(ret(0).translatedText, "こんにちは"))
+            Debug.Assert(Equals(ret(0).translatedText, "挨拶"))
 
 
             '  非同期テキスト翻訳
@@ -40,9 +40,9 @@ Namespace TextTranslationDemo
             ret = Await flow.TranslateFlowAsync(rozettaApiUser, [option], text)
             Debug.Assert(ret.Length = 1)
             Debug.Assert(Equals(ret(0).sourceText, "hello"))
-            Debug.Assert(Equals(ret(0).translatedText, "こんにちは"))
+            Debug.Assert(Equals(ret(0).translatedText, "挨拶"))
         End Function
-        ' ※T4OO user can not use classiii dictionary function
+        ' ※T4OO user can not use rozetta api dictionary function
         Private Async Function TestUserDictionary(ByVal baseUrl As String, ByVal rozettaApiUser As RozettaApiUser) As Task
             Dim userDictionaryClient As UserDictionaryClient = New UserDictionaryClient(baseUrl)
             Dim item As UserDictionaryItem = New UserDictionaryItem With {
@@ -83,7 +83,7 @@ Namespace TextTranslationDemo
                 .fromLang = "en",
                 .fromText = "hello",
                 .toLang = "ja",
-                .toText = "こんにちは"
+                .toText = "挨拶"
             }
             bRet = Await userDictionaryClient.UpdateUserDictionaryItemAsync(rozettaApiUser, userDictionaryItems(0).id, itemNew)
             Debug.Assert(bRet)
@@ -92,7 +92,7 @@ Namespace TextTranslationDemo
             textTranslationResults = Await textTranslationClient.TranslateTextBySyncModeAsync(rozettaApiUser, [option], text)
             Debug.Assert(textTranslationResults.Length = 1)
             Debug.Assert(Equals(textTranslationResults(0).sourceText, "hello"))
-            Debug.Assert(Equals(textTranslationResults(0).translatedText, "こんにちは"))
+            Debug.Assert(Equals(textTranslationResults(0).translatedText, "挨拶"))
             ' ユーザー辞書を確認 ----------------------------------------------------- end
 
             ' ユーザー辞書を削除

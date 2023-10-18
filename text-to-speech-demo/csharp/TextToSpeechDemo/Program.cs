@@ -11,22 +11,22 @@ namespace TextToSpeechDemo
         {
             UserInfo.init("config.json");
 
-            string baseUrl = "https://translate.classiii.info/api/v1";
+            string baseUrl = "https://translate.rozetta-api.io/api/v1";
 
-            ClassiiiUser classiiiUser = new ClassiiiUser { AccessKey = UserInfo.CLASSIII_ACCESS_KEY, SecretKey = UserInfo.CLASSIII_SECRET_KEY };
+            RozettaApiUser user = new RozettaApiUser { AccessKey = UserInfo.ROZETTA_API_ACCESS_KEY, SecretKey = UserInfo.ROZETTA_API_SECRET_KEY };
 
             // 音声合成を試す
-            await TestTextToSpeech(baseUrl, classiiiUser, "ja", "こんにちは", "hello.wav");
+            await TestTextToSpeech(baseUrl, user, "ja", "こんにちは", "hello.wav");
         }
-        private static async Task TestTextToSpeech(string baseUrl, 
-            ClassiiiUser classiiiUser, 
+        private static async Task TestTextToSpeech(string baseUrl,
+            RozettaApiUser user, 
             string targetLang, 
             string text, 
             string saveFilePath)
         {
             TextToSpeechClient textTranslationClient = new TextToSpeechClient(baseUrl);
             //  音声合成
-            bool result = await textTranslationClient.TextToSpeechtAsync(classiiiUser, targetLang, text, saveFilePath);
+            bool result = await textTranslationClient.TextToSpeechtAsync(user, targetLang, text, saveFilePath);
 
             Debug.Assert(result);
         }
